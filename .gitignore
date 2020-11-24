@@ -1,0 +1,8 @@
+/common-env
+/downlords-faf-client-*
+/dxvk-*
+*.tar.gz
+/jdk-*
+/prefix
+/winetricks
+

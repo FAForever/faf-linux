@@ -1,0 +1,22 @@
+--- setup_dxvk.sh.old	2020-11-23 22:43:54.369410524 -0800
++++ setup_dxvk.sh	2020-11-23 22:44:08.185617950 -0800
+@@ -55,18 +55,7 @@
+ 
+ wine="wine"
+ wine64="wine64"
+-wineboot="wineboot"
+-
+-# $PATH is the way for user to control where wine is located (including custom Wine versions).
+-# Pure 64-bit Wine (non Wow64) requries skipping 32-bit steps.
+-# In such case, wine64 and winebooot will be present, but wine binary will be missing,
+-# however it can be present in other PATHs, so it shouldn't be used, to avoid versions mixing.
+-wine_path=$(dirname "$(which $wineboot)")
+-wow64=true
+-if ! [ -f "$wine_path/$wine" ]; then
+-   wine=$wine64
+-   wow64=false
+-fi
++wineboot="wine wineboot"
+ 
+ # resolve 32-bit and 64-bit system32 path
+ winever=$($wine --version | grep wine)

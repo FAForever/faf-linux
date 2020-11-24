@@ -1,0 +1,15 @@
+#!/bin/bash
+# Start the FAF client
+
+basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+cd "$basedir"
+
+source ./common-env
+if [[ "$ice_adapter_debug" == "1" ]]; then
+    export SHOW_ICE_ADAPTER_DEBUG_WINDOW="true"
+fi
+
+export INSTALL4J_JAVA_HOME="$basedir/$java_path"
+cd "$dfc_path"
+
+exec ./downlords-faf-client

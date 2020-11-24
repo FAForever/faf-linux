@@ -1,0 +1,20 @@
+#!/bin/bash
+# Run command in environment, but without wine
+
+basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+cd "$basedir"
+
+# variables
+source ./common-env
+export WINEPREFIX="$wineprefix"
+export SteamGameId="$steam_game_id"
+export SteamAppId="$steam_game_id"
+export DXVK_HUD="$dxvk_hud"
+export DXVK_CONFIG_FILE="$dxvk_config_file"
+export DXVK_STATE_CACHE_PATH="$dxvk_cache_dir"
+
+export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
+export PATH="$proton_path/dist/bin/:$PATH"
+export WINE_LARGE_ADDRESS_AWARE=1
+
+exec "$@"

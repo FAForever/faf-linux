@@ -1,0 +1,18 @@
+#!/bin/bash
+# Wrapper for launching wine programs in the prefix
+
+basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+cd "$basedir"
+
+source ./common-env
+
+# only enable steam integration if steam is actually running
+WRAPPER=""
+if [[ "$enable_steam_integration" == "1" ]] && pgrep steam >/dev/null; then
+    export LD_PRELOAD="$steam_path/ubuntu12_32/gameoverlayrenderer.so"
+    export LD_LIBRARY_PATH="$proton_path/dist/lib"
+    export ENABLE_VK_LAYER_VALVE_steam_overlay_1=1
+    WRAPPER="steam.exe"
+fi
+
+exec "$basedir/launchwrapper-env" wine $WRAPPER "$@"
