@@ -2,12 +2,11 @@
 # Main setup script
 set -e
 
-DXVK_VERSION="1.7.2"
-DFC_VERSION="1.2.3"
-PROTON_VERSION="5.13"
+DXVK_VERSION="1.7.3"
+DFC_VERSION="1.4.0"
 
-JAVA_URL="https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12/OpenJDK14U-jdk_x64_linux_hotspot_14.0.2_12.tar.gz"
-JAVAFX_URL="https://gluonhq.com/download/javafx-14-0-2-jmods-linux/"
+JAVA_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"
+JAVAFX_URL="https://gluonhq.com/download/javafx-15-0-1-jmods-linux/"
 DFC_ARCHIVE="dfc_unix_$(tr '.' '_' <<< "$DFC_VERSION").tar.gz"
 DFC_EXTRACTED="downlords-faf-client-${DFC_VERSION}"
 DFC_URL="https://github.com/FAForever/downlords-faf-client/releases/download/v${DFC_VERSION}/${DFC_ARCHIVE}"
@@ -17,10 +16,11 @@ DXVK_URL="https://github.com/doitsujin/dxvk/releases/download/v${DXVK_VERSION}/$
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 
 STEAM_PATH="$HOME/.local/share/Steam"
-PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
 STEAM_GAME_ID="9420"
 GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
 GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
+
+WINE_PATH="${WINE_PATH:-/opt/wine-devel}"
 
 basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 cd "$basedir"
@@ -37,22 +37,17 @@ if ! jq --version > /dev/null; then
     exit 1
 fi
 
+if ! cabextract --version > /dev/null; then
+    echo "cabextract not found. Please install cabextract."
+    exit 1
+fi
+
 if [[ ! -d "$STEAM_PATH" ]]; then
-    echo "Could not find Steam at $STEAM_PATH."
-    exit 1
+    echo "Could not find Steam at $STEAM_PATH. Game overlay may not work."
 fi
 
-if [[ ! -d "$PROTON_PATH" ]]; then
-    echo "Proton $PROTON_VERSION does not seem to be installed."
-    exit 1
-fi
-
-# when proton downloads, it does not automatically extract dist/
-# ensure proton/dist actually exists
-if [[ ! -d "$PROTON_PATH/dist" ]]; then
-    echo
-    echo "Proton $PROTON_VERSION does not appear to be extracted."
-    echo "Please run Proton $PROTON_VERSION at least once."
+if [[ ! -a "$WINE_PATH/bin/wine" ]]; then
+    echo "Could not find wine at $WINE_PATH/bin/wine"
     exit 1
 fi
 
@@ -70,7 +65,6 @@ function write-env() {
 wineprefix="$basedir/prefix"
 write-env "wineprefix" "$wineprefix"
 write-env "steam_path" "$STEAM_PATH"
-write-env "proton_path" "$PROTON_PATH"
 write-env "steam_game_id" "$STEAM_GAME_ID"
 write-env "game_path" "$GAME_PATH"
 write-env "game_data_path" "$wineprefix/drive_c/users/steamuser/$GAME_DATA_PATH"
@@ -78,6 +72,7 @@ write-env "dxvk_hud" "fps,compiler" # sane defaults, probably
 write-env "dxvk_config_file" "$basedir/dxvk.conf"
 write-env "enable_steam_integration" "1"
 write-env "ice_adapter_debug" "1"
+write-env "wine_path" "$WINE_PATH"
 
 dxvk_cache_dir="$basedir/dxvk-cache"
 mkdir -p "$dxvk_cache_dir"
@@ -91,14 +86,14 @@ block-print "Downloading FAF client"
 wget -O "$DFC_ARCHIVE" "$DFC_URL"
 block-print "Extracting FAF client"
 tar -xvf "$DFC_ARCHIVE"
-rm -v "$DFC_ARCHIVE"
+rm "$DFC_ARCHIVE"
 write-env "dfc_path" "$DFC_EXTRACTED"
 
 block-print "Downloading dxvk"
 wget -O "$DXVK_ARCHIVE" "$DXVK_URL"
 block-print "Extracting dxvk"
 tar -xvf "$DXVK_ARCHIVE"
-rm -v "$DXVK_ARCHIVE"
+rm "$DXVK_ARCHIVE"
 write-env "dxvk_path" "$DXVK_EXTRACTED"
 
 block-print "Downloading java"
@@ -114,17 +109,19 @@ pushd "$java_path_orig"
 unzip "../javafx.zip"
 javafx_jmods_dir=("javafx-jmods-"*)
 cp -rv "$javafx_jmods_dir/"* "jmods/"
-rm -rv "$javafx_jmods_dir"
+rm -r "$javafx_jmods_dir"
 # unfortunately, adoptopenjdk does not provide java builds with javafx
 # even more unfortunately, the openjfx "sdk" segfaults immediately
 # to get a working JRE with javafx, we have to manually rebuild one with jlink
-block-print "Rebuliding jre"
+block-print "Rebuilding jre"
 jmods="$(ls jmods | sed -E 's/\.jmod$//' | tr '\n' ',')"
 java_path="${java_path_orig}-javafx"
+echo "jlink..."
 bin/jlink -p jmods --add-modules "$jmods" --output "../$java_path"
 popd
 write-env java_path "$java_path"
-rm -rv "$java_path_orig"
+echo "deleting old java..."
+rm -rf "$java_path_orig"
 
 pushd "$DXVK_EXTRACTED"
 # patch dxvk to work with proton

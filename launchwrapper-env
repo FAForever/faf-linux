@@ -14,7 +14,7 @@ export DXVK_CONFIG_FILE="$dxvk_config_file"
 export DXVK_STATE_CACHE_PATH="$dxvk_cache_dir"
 
 export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
-export PATH="$proton_path/dist/bin/:$PATH"
+export PATH="$wine_path/bin/:$PATH"
 export WINE_LARGE_ADDRESS_AWARE=1
 
 exec "$@"

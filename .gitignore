@@ -2,6 +2,7 @@
 /downlords-faf-client-*
 /dxvk-*
 *.tar.gz
+*.zip
 /jdk-*
 /prefix
 /winetricks
