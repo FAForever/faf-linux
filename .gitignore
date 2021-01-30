@@ -6,4 +6,5 @@
 /jdk-*
 /prefix
 /winetricks
+*.log
 

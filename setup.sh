@@ -126,6 +126,8 @@ popd
 write-env java_path "$java_path"
 echo "deleting old java..."
 rm -rf "$java_path_orig"
+rm "java.tar.gz"
+rm "javafx.zip"
 
 pushd "$DXVK_EXTRACTED"
 # patch dxvk to work with proton
@@ -135,7 +137,7 @@ popd
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
 block-print "Running winetricks"
-"$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9
+"$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
 block-print "Installing dxvk"
 "$basedir/launchwrapper-env" "$basedir/${DXVK_EXTRACTED}/setup_dxvk.sh" install
 
