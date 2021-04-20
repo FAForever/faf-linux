@@ -2,8 +2,8 @@
 # Main setup script
 set -e
 
-DXVK_VERSION="1.7.3"
-DFC_VERSION="1.4.0"
+DXVK_VERSION="1.8.1"
+DFC_VERSION="1.4.3"
 PROTON_VERSION="- Experimental"
 
 JAVA_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"
@@ -18,7 +18,7 @@ WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/s
 
 STEAM_PATH="$HOME/.local/share/Steam"
 PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
-WINE_PATH="$PROTON_PATH/dist"
+WINE_PATH="$PROTON_PATH/files"
 STEAM_GAME_ID="9420"
 GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
 GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
@@ -52,7 +52,7 @@ fi
 
 ensure-path "$STEAM_PATH" "Could not find Steam at $STEAM_PATH"
 ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed"
-ensure-path "$PROTON_PATH/dist" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
+ensure-path "$PROTON_PATH/files" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
 
 # initialize environment file
 cat <<EOF > "$basedir/common-env"
