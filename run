@@ -15,4 +15,4 @@ export INSTALL4J_JAVA_HOME="$basedir/$java_path"
 export JAVA_TOOL_OPTIONS="-Djdk.gtk.version=2"
 
 cd "$dfc_path"
-exec ./downlords-faf-client
+exec ./faf-client
