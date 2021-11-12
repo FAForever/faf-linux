@@ -18,20 +18,19 @@ function update-dxvk() {
    if [[ -d "$dxvk_extracted" ]]; then
       echo "dxvk $dxvk_version already exists at $dxvk_extracted"
       echo "Not re-downloading."
-      return
+   else
+      block-print "Downloading dxvk"
+      wget -O "$dxvk_archive" "$dxvk_url"
+      block-print "Extracting dxvk"
+      tar -xvf "$dxvk_archive"
+      rm "$dxvk_archive"
+      write-env "dxvk_path" "$dxvk_extracted"
+
+      pushd "$dxvk_extracted"
+      # patch dxvk to work with proton
+      patch setup_dxvk.sh "$basedir/setup_dxvk.sh.patch"
+      popd
    fi
-
-   block-print "Downloading dxvk"
-   wget -O "$dxvk_archive" "$dxvk_url"
-   block-print "Extracting dxvk"
-   tar -xvf "$dxvk_archive"
-   rm "$dxvk_archive"
-   write-env "dxvk_path" "$dxvk_extracted"
-
-   pushd "$dxvk_extracted"
-   # patch dxvk to work with proton
-   patch setup_dxvk.sh "$basedir/setup_dxvk.sh.patch"
-   popd
 
    block-print "Installing dxvk"
    "$basedir/launchwrapper-env" "$basedir/$dxvk_extracted/setup_dxvk.sh" install

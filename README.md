@@ -13,7 +13,7 @@ The script `./update-component.sh` is provided for convenient updating of certai
 
 - To update dxvk, run `./update-component.sh dxvk <new version>`. Versions look like "1.9.3".
 - To update the FAF client, run `./update-component.sh faf-client <new version>`. Versions look like "2021.10.0".
-- To update java, run `./update.component.sh "<java url>" "<javafx url>".
+- To update java, run `./update.component.sh "<java url>" "<javafx url>"`.
   - The FAF client (at time of writing) wants Java 15.
   - Java URL is currently <https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz>
   - JavaFX URL is currently <https://gluonhq.com/download/javafx-15-0-1-jmods-linux/>
