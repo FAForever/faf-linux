@@ -7,4 +7,4 @@
 /prefix
 /winetricks
 *.log
-
+/setup-dxvk.sh.orig

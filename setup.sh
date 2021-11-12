@@ -8,12 +8,7 @@ PROTON_VERSION="- Experimental"
 
 JAVA_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"
 JAVAFX_URL="https://gluonhq.com/download/javafx-15-0-1-jmods-linux/"
-DFC_ARCHIVE="dfc_unix_$(tr '.' '_' <<< "$DFC_VERSION").tar.gz"
-DFC_EXTRACTED="faf-client-${DFC_VERSION}"
-DFC_URL="https://github.com/FAForever/downlords-faf-client/releases/download/v${DFC_VERSION}/${DFC_ARCHIVE}"
-DXVK_ARCHIVE="dxvk-${DXVK_VERSION}.tar.gz"
-DXVK_EXTRACTED="dxvk-${DXVK_VERSION}"
-DXVK_URL="https://github.com/doitsujin/dxvk/releases/download/v${DXVK_VERSION}/${DXVK_ARCHIVE}"
+# winetricks has its own self-updater
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 
 STEAM_PATH="$HOME/.local/share/Steam"
@@ -26,19 +21,7 @@ GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Comman
 basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 cd "$basedir"
 
-function block-print() {
-    echo "============================================================"
-    printf "$@"
-    echo
-    echo "============================================================"
-}
-
-function ensure-path() {
-    if [[ ! -d "$1" ]]; then
-        echo "$2"
-        exit 1
-    fi
-}
+source ./common.sh
 
 if ! jq --version > /dev/null; then
     echo "jq not found. Please install jq."
@@ -61,10 +44,6 @@ cat <<EOF > "$basedir/common-env"
 
 EOF
 
-function write-env() {
-    printf '%s="%s"\n' "$1" "$2" >> "$basedir/common-env"
-}
-
 wineprefix="$basedir/prefix"
 write-env "wineprefix" "$wineprefix"
 write-env "steam_path" "$STEAM_PATH"
@@ -86,60 +65,16 @@ block-print "Downloading winetricks"
 wget -O winetricks "$WINETRICKS_URL"
 chmod a+x winetricks
 
-block-print "Downloading FAF client"
-wget -O "$DFC_ARCHIVE" "$DFC_URL"
-block-print "Extracting FAF client"
-tar -xvf "$DFC_ARCHIVE"
-rm "$DFC_ARCHIVE"
-write-env "dfc_path" "$DFC_EXTRACTED"
+"$basedir/update-component.sh" faf-client "$DFC_VERSION"
 
-block-print "Downloading dxvk"
-wget -O "$DXVK_ARCHIVE" "$DXVK_URL"
-block-print "Extracting dxvk"
-tar -xvf "$DXVK_ARCHIVE"
-rm "$DXVK_ARCHIVE"
-write-env "dxvk_path" "$DXVK_EXTRACTED"
-
-block-print "Downloading java"
-wget -O "java.tar.gz" "$JAVA_URL"
-block-print "Downloading javafx"
-wget -O "javafx.zip" "$JAVAFX_URL"
-block-print "Extracting java"
-java_path_orig="$(tar -tf "java.tar.gz" | head -n 1 | cut -d '/' -f 1)"
-tar -xvf "java.tar.gz"
-block-print "Extracting javafx"
-pushd "$java_path_orig"
-# what follows are multiple extremely bad hacks
-unzip "../javafx.zip"
-javafx_jmods_dir=("javafx-jmods-"*)
-cp -rv "$javafx_jmods_dir/"* "jmods/"
-rm -r "$javafx_jmods_dir"
-# unfortunately, adoptopenjdk does not provide java builds with javafx
-# even more unfortunately, the openjfx "sdk" segfaults immediately
-# to get a working JRE with javafx, we have to manually rebuild one with jlink
-block-print "Rebuilding jre"
-jmods="$(ls jmods | sed -E 's/\.jmod$//' | tr '\n' ',')"
-java_path="${java_path_orig}-javafx"
-echo "jlink..."
-bin/jlink -p jmods --add-modules "$jmods" --output "../$java_path"
-popd
-write-env java_path "$java_path"
-echo "deleting old java..."
-rm -rf "$java_path_orig"
-rm "java.tar.gz"
-rm "javafx.zip"
-
-pushd "$DXVK_EXTRACTED"
-# patch dxvk to work with proton
-patch setup_dxvk.sh "$basedir/setup_dxvk.sh.patch"
-popd
+"$basedir/update-component.sh" java "$JAVA_URL" "$JAVAFX_URL"
 
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
 block-print "Running winetricks"
 "$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
-block-print "Installing dxvk"
-"$basedir/launchwrapper-env" "$basedir/${DXVK_EXTRACTED}/setup_dxvk.sh" install
+# install dxvk into prefix
+"$basedir/update-component.sh" dxvk "$DXVK_VERSION"
 
 # prompt user to log in
 echo
