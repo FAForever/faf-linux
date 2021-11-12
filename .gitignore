@@ -1,5 +1,5 @@
 /common-env
-/downlords-faf-client-*
+/faf-client-*
 /dxvk-*
 *.tar.gz
 *.zip
