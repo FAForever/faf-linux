@@ -24,7 +24,6 @@ function update-dxvk() {
       block-print "Extracting dxvk"
       tar -xvf "$dxvk_archive"
       rm "$dxvk_archive"
-      write-env "dxvk_path" "$dxvk_extracted"
 
       pushd "$dxvk_extracted"
       # patch dxvk to work with proton
@@ -34,6 +33,7 @@ function update-dxvk() {
 
    block-print "Installing dxvk"
    "$basedir/launchwrapper-env" "$basedir/$dxvk_extracted/setup_dxvk.sh" install
+   write-env "dxvk_path" "$dxvk_extracted"
 
    echo
    echo "Done"
@@ -48,14 +48,15 @@ function update-dfc() {
    if [[ -d "$dfc_extracted" ]]; then
       echo "FAF client $dfc_version already exists at $dfc_extracted"
       echo "Not re-downloading."
-      return
+   else
+      block-print "Downloading FAF client"
+      wget -O "$dfc_archive" "$dfc_url"
+      block-print "Extracting FAF client"
+      tar -xvf "$dfc_archive"
+      rm "$dfc_archive"
    fi
 
-   block-print "Downloading FAF client"
-   wget -O "$dfc_archive" "$dfc_url"
-   block-print "Extracting FAF client"
-   tar -xvf "$dfc_archive"
-   rm "$dfc_archive"
+   # update path in env anyways to allow for fast version switching
    write-env "dfc_path" "$dfc_extracted"
 
    echo
