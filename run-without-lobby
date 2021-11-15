@@ -1,4 +1,0 @@
-#!/bin/bash
-
-basedir=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-"$basedir/launchwrapper" ~/.faforever/bin/ForgedAlliance.exe /init init.lua
