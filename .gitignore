@@ -6,5 +6,6 @@
 /jdk-*
 /prefix
 /winetricks
+/winetricks.bak
 *.log
 /setup-dxvk.sh.orig
