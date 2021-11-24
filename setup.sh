@@ -23,18 +23,15 @@ cd "$basedir"
 
 source ./common.sh
 
-if ! jq --version > /dev/null; then
-    echo "jq not found. Please install jq."
-    exit 1
-fi
+# required programs: wget jq cabextract
+ensure-bin wget --version
+ensure-bin jq --version
+ensure-bin cabextract --version
 
-if ! cabextract --version > /dev/null; then
-    echo "cabextract not found. Please install cabextract."
-    exit 1
-fi
-
-ensure-path "$STEAM_PATH" "Could not find Steam at $STEAM_PATH"
-ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed"
+# ensure correct paths for steam and proton
+ensure-path "$STEAM_PATH" "Could not find Steam at $STEAM_PATH. If Steam is installed in a different location, please" \
+    "modify the STEAM_PATH variable at the top of this script."
+ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed."
 ensure-path "$PROTON_PATH/files" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
 
 # initialize environment file

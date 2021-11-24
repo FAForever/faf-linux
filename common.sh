@@ -8,9 +8,16 @@ function block-print() {
     echo "============================================================"
 }
 
+function ensure-bin() {
+    if ! "$@" > /dev/null; then
+        echo "Command '$@' failed. Please install '$1' from your distribution's package manager." >&2
+        exit 1
+    fi
+}
+
 function ensure-path() {
     if [[ ! -d "$1" ]]; then
-        echo "$2"
+        echo "$2" >&2
         exit 1
     fi
 }
