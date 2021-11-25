@@ -1,10 +1,12 @@
 # FAF on Linux
 
+A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on Ubuntu, should work on other distributions as well.
+
 ## How to setup
 
 1. Clone this repository (`git clone https://github.com/iczero/faf-linux`) and install the prerequisites `git wget jq cabextract` from your distribution's package manager.
 1. Run Forged Alliance from Steam with Proton Experimental at least once (this is necessary to set up proton)
-1. Run `./setup.sh` to set up the local prefix, the FAF client, java, and others
+1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 
