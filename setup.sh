@@ -2,8 +2,8 @@
 # Main setup script
 set -e
 
-DXVK_VERSION="1.9.3"
-DFC_VERSION="2021.12.0"
+DXVK_VERSION="1.10"
+DFC_VERSION="2022.2.0"
 PROTON_VERSION="- Experimental"
 
 JAVA_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"
