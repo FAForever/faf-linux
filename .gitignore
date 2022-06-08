@@ -1,5 +1,6 @@
 /common-env
 /faf-client-*
+!/faf-client-vm-options.txt
 /dxvk-*
 *.tar.gz
 *.zip

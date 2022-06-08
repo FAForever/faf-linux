@@ -3,11 +3,11 @@
 set -e
 
 DXVK_VERSION="1.10"
-DFC_VERSION="2022.2.0"
+DFC_VERSION="2022.5.0"
 PROTON_VERSION="- Experimental"
 
-JAVA_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"
-JAVAFX_URL="https://gluonhq.com/download/javafx-15-0-1-jmods-linux/"
+JAVA_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"
+JAVAFX_URL="https://download2.gluonhq.com/openjfx/18.0.1/openjfx-18.0.1_linux-x64_bin-jmods.zip"
 # winetricks has its own self-updater
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 

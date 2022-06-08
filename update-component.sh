@@ -41,7 +41,7 @@ function update-dxvk() {
 
 function update-dfc() {
    dfc_version="$1"
-   dfc_archive="dfc_unix_$(tr '.' '_' <<< "$dfc_version").tar.gz"
+   dfc_archive="faf_unix_$(tr '.' '_' <<< "$dfc_version").tar.gz"
    dfc_extracted="faf-client-${dfc_version}"
    dfc_url="https://github.com/FAForever/downlords-faf-client/releases/download/v${dfc_version}/${dfc_archive}"
 
@@ -54,6 +54,9 @@ function update-dfc() {
       block-print "Extracting FAF client"
       tar -xvf "$dfc_archive"
       rm "$dfc_archive"
+
+      block-print "Applying access hacks"
+      tee -a < faf-client-vm-options.txt "$dfc_extracted/faf-client.vmoptions"
    fi
 
    # update path in env anyways to allow for fast version switching
