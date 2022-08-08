@@ -18,6 +18,10 @@ The script `./update-component.sh` is provided for convenient updating of certai
 - To update the FAF client, run `./update-component.sh faf-client <new version>`. Versions look like "2021.10.0".
 - To update java, run `./update-component.sh java "<java url>" "<javafx url>"`.
   - The FAF client (at time of writing) wants Java 15.
-  - Java URL is currently <https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.2%2B7/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz>
-  - JavaFX URL is currently <https://gluonhq.com/download/javafx-15-0-1-jmods-linux/>
+  - Java URL is currently <https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz>
+  - JavaFX URL is currently <https://download2.gluonhq.com/openjfx/18.0.1/openjfx-18.0.1_linux-x64_bin-jmods.zip>
   - These may change in the future. `setup.sh` will hopefully be updated with working URLs.
+
+## Help, it doesn't work!
+
+Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af).
