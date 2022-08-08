@@ -2,8 +2,8 @@
 # Main setup script
 set -e
 
-DXVK_VERSION="1.10"
-DFC_VERSION="2022.5.0"
+DXVK_VERSION="1.10.3"
+DFC_VERSION="2022.7.0"
 PROTON_VERSION="- Experimental"
 
 JAVA_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"
