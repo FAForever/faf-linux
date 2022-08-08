@@ -4,13 +4,19 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 
 ## How to setup
 
-1. Clone this repository (`git clone https://github.com/iczero/faf-linux`) and install the prerequisites `git wget jq cabextract` from your distribution's package manager.
+1. Clone this repository (`git clone https://github.com/iczero/faf-linux`) and install the prerequisites `git wget jq cabextract` from your distribution's package manager
 1. Run Forged Alliance from Steam with Proton Experimental at least once (this is necessary to set up proton)
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 
-## Updating components
+## How to update after installation
+
+1. Pull latest version of the scripts and version files (`git pull`)
+1. Run `./update.sh perform` to update necessary components automatically
+1. If desired, old versions of dxvk and the faf client can be removed manually
+
+## Updating individual components
 
 The script `./update-component.sh` is provided for convenient updating of certain parts.
 

@@ -23,6 +23,6 @@ function ensure-path() {
 }
 
 function write-env() {
-    sed -i "/$1=/d" "$basedir/common-env"
+    sed -i "/^$1=/d" "$basedir/common-env"
     printf '%s="%s"\n' "$1" "$2" >> "$basedir/common-env"
 }

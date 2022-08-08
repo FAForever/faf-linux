@@ -35,6 +35,8 @@ function update-dxvk() {
    "$basedir/launchwrapper-env" "$basedir/$dxvk_extracted/setup_dxvk.sh" install
    write-env "dxvk_path" "$dxvk_extracted"
 
+   write-env "dxvk_version_current" "$dxvk_version"
+
    echo
    echo "Done"
 }
@@ -61,6 +63,8 @@ function update-dfc() {
 
    # update path in env anyways to allow for fast version switching
    write-env "dfc_path" "$dfc_extracted"
+
+   write-env "dfc_version_current" "$dfc_version"
 
    echo
    echo "Done"
@@ -106,6 +110,9 @@ function update-java() {
    rm -rf "$java_path_orig"
    rm "java.tar.gz"
    rm "javafx.zip"
+
+   write-env "java_download_url_current" "$java_url"
+   write-env "javafx_download_url_current" "$javafx_url"
 
    echo
    echo "Done"

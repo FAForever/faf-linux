@@ -2,19 +2,15 @@
 # Main setup script
 set -e
 
-DXVK_VERSION="1.10.3"
-DFC_VERSION="2022.7.0"
 PROTON_VERSION="- Experimental"
-
-JAVA_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"
-JAVAFX_URL="https://download2.gluonhq.com/openjfx/18.0.1/openjfx-18.0.1_linux-x64_bin-jmods.zip"
 # winetricks has its own self-updater
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
+STEAM_GAME_ID="9420"
 
+# if you are using nonstandard paths, please change them here
 STEAM_PATH="$HOME/.local/share/Steam"
 PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
 WINE_PATH="$PROTON_PATH/files"
-STEAM_GAME_ID="9420"
 GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
 GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
 
@@ -62,16 +58,19 @@ block-print "Downloading winetricks"
 wget -O winetricks "$WINETRICKS_URL"
 chmod a+x winetricks
 
-"$basedir/update-component.sh" faf-client "$DFC_VERSION"
+# load target versions
+. ./versions
 
-"$basedir/update-component.sh" java "$JAVA_URL" "$JAVAFX_URL"
+"$basedir/update-component.sh" faf-client "$dfc_version_target"
+
+"$basedir/update-component.sh" java "$java_download_url_target" "$javafx_download_url_target"
 
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
 block-print "Running winetricks"
 "$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
 # install dxvk into prefix
-"$basedir/update-component.sh" dxvk "$DXVK_VERSION"
+"$basedir/update-component.sh" dxvk "$dxvk_version_target"
 
 # prompt user to log in
 echo
