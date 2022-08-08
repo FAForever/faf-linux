@@ -17,4 +17,7 @@ export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
 export PATH="$wine_path/bin/:$PATH"
 export WINE_LARGE_ADDRESS_AWARE=1
 
+# esync and fsync cause issues
+unset WINEESYNC WINEFSYNC
+
 exec "$@"
