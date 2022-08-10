@@ -31,3 +31,7 @@ The script `./update-component.sh` is provided for convenient updating of certai
 ## Help, it doesn't work!
 
 Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af).
+
+## Weird issues and other nonsense
+
+- Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
