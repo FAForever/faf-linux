@@ -11,8 +11,5 @@ fi
 
 export INSTALL4J_JAVA_HOME="$basedir/$java_path"
 
-# libglassgtk3 crashes for some reason, use gtk 2 instead
-export JAVA_TOOL_OPTIONS="-Djdk.gtk.version=2"
-
 cd "$dfc_path"
 exec ./faf-client
