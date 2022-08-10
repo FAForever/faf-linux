@@ -16,6 +16,4 @@ if [[ "$enable_steam_integration" == "1" ]] && pgrep steam >/dev/null; then
     #WRAPPER="c:/windows/syswow64/steam.exe"
 fi
 
-# desktop is forced as it seems to work better, game will run at resolution
-# specified in config regardless
-exec "$basedir/launchwrapper-env" "$wine_path/bin/wine" explorer.exe /desktop=faf,1280x720 $WRAPPER "$@"
+exec "$basedir/launchwrapper-env" "$wine_path/bin/wine" $WRAPPER "$@"
