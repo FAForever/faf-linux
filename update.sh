@@ -46,7 +46,7 @@ if [[ "$javafx_download_url_current" != "$javafx_download_url_target" ]]; then
 fi
 
 if [[ "$perform_update" = "yes" ]] && [[ "$should_update_java" = "yes" ]]; then
-    ./update-component.sh java "$java_download_url_current" "$javafx_download_url_current"
+    ./update-component.sh java "$java_download_url_target" "$javafx_download_url_target"
 fi
 
 if [[ "$perform_update" != "yes" ]] && [[ "$has_updates" = "yes" ]]; then
