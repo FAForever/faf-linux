@@ -35,3 +35,9 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 ## Weird issues and other nonsense
 
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
+
+## Why should you use this
+
+- Years of my own suffering have culminated in this massive pile of hacks
+- I will literally fix your issues with you over discord because I have no life
+- I suck at faf so I literally spend more time maintaining these scripts than playing faf
