@@ -35,6 +35,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 ## Weird issues and other nonsense
 
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
+- Forged Alliance minimizes itself on Alt-Tab: run `./launchwrapper winecfg`, go to "Graphics", then check the "Emulate a virtual desktop" box. Note: This may cause everything to break. If it does, just run `winecfg` again and uncheck the box.
 
 ## Why should you use this
 
