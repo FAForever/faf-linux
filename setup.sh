@@ -7,28 +7,49 @@ PROTON_VERSION="- Experimental"
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 STEAM_GAME_ID="9420"
 
-# if you are using nonstandard paths, please change them here
-STEAM_PATH="$HOME/.local/share/Steam"
-PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
-WINE_PATH="$PROTON_PATH/files"
-GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
-GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
-
 basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
 cd "$basedir"
 
 source ./common.sh
 
+# if you are using nonstandard paths, please add it here
+# if you've installed steam from an official or distribution package but it was
+# not found, please file an issue
+STEAM_SEARCH_PATHS=("$HOME/.local/share/Steam" "$HOME/.steam/steam")
+# note: ~/.steam/steam exists even if steam is installed to ~/.local/share/Steam
+# for what appears to be compatibility reasons.
+
+echo "looking for Steam..."
+for f in "${STEAM_SEARCH_PATHS[@]}"; do
+    if [[ -d "$f" ]]; then
+        echo "found Steam: $f"
+        STEAM_PATH="$f"
+        break
+    else
+        echo "not found: $f"
+    fi
+done
+
+if [[ -z "$STEAM_PATH" ]]; then
+    echo
+    echo "Could not find Steam. If Steam is installed at a different location, please modify the STEAM_SEARCH_PATHS variable to match." >&2
+    exit 1
+fi
+
+PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
+WINE_PATH="$PROTON_PATH/files"
+GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
+GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
+
+# ensure correct paths for steam and proton
+ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed."
+ensure-path "$PROTON_PATH/files" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
+ensure-path "$GAME_PATH" "Could not find Forged Alliance. Please ensure you have it installed in Steam."
+
 # required programs: wget jq cabextract
 ensure-bin wget --version
 ensure-bin jq --version
 ensure-bin cabextract --version
-
-# ensure correct paths for steam and proton
-ensure-path "$STEAM_PATH" "Could not find Steam at $STEAM_PATH. If Steam is installed in a different location, please" \
-    "modify the STEAM_PATH variable at the top of this script."
-ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed."
-ensure-path "$PROTON_PATH/files" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
 
 # initialize environment file
 cat <<EOF > "$basedir/common-env"
@@ -71,6 +92,30 @@ block-print "Running winetricks"
 "$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
 # install dxvk into prefix
 "$basedir/update-component.sh" dxvk "$dxvk_version_target"
+
+# ensure libXcomposite exists
+echo "looking for libXcomposite.so.1..."
+ldconfig_search="$(ldconfig -p | grep -F "libXcomposite.so.1")"
+if grep -F "libXcomposite.so.1 (libc6,x86-64)" <<< "$ldconfig_search"; then
+    echo "found libXcomposite.so.1 (64-bit)"
+    xcomp_found_64=1
+fi
+if grep -F "libXcomposite.so.1 (libc6)" <<< "$ldconfig_search"; then
+    echo "found libXcomposite.so.1 (32-bit)"
+    xcomp_found_32=1
+fi
+
+if [[ "$xcomp_found_32" != "1" ]] || [[ "$xcomp_found_64" != "1" ]]; then
+    block-print "WARNING: Cannot find libXcomposite.so.1"
+    if [[ "$xcomp_found_32" != "1" ]]; then
+        echo "Could not find a 32-bit version of libXcomposite.so.1"
+    fi
+    if [[ "$xcomp_found_64" != "1" ]] then
+        echo "Could not find a 64-bit version of libXcomposite.so.1"
+    fi
+    echo "Both 32-bit and 64-bit versions of libXcomposite.so.1 are required " \
+        "to run Forged Alliance. Please check the readme for more information."
+fi
 
 # prompt user to log in
 echo
