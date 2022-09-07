@@ -65,7 +65,7 @@ write-env "proton_path" "$PROTON_PATH"
 write-env "steam_game_id" "$STEAM_GAME_ID"
 write-env "game_path" "$GAME_PATH"
 write-env "game_data_path" "$wineprefix/drive_c/users/steamuser/$GAME_DATA_PATH"
-write-env "dxvk_hud" "fps,compiler" # sane defaults, probably
+write-env "dxvk_hud" "compiler" # sane defaults, probably
 write-env "dxvk_config_file" "$basedir/dxvk.conf"
 write-env "enable_steam_integration" "1"
 write-env "ice_adapter_debug" "1"
@@ -110,10 +110,10 @@ if [[ "$xcomp_found_32" != "1" ]] || [[ "$xcomp_found_64" != "1" ]]; then
     if [[ "$xcomp_found_32" != "1" ]]; then
         echo "Could not find a 32-bit version of libXcomposite.so.1"
     fi
-    if [[ "$xcomp_found_64" != "1" ]] then
+    if [[ "$xcomp_found_64" != "1" ]]; then
         echo "Could not find a 64-bit version of libXcomposite.so.1"
     fi
-    echo "Both 32-bit and 64-bit versions of libXcomposite.so.1 are required " \
+    echo "Both 32-bit and 64-bit versions of libXcomposite.so.1 are required" \
         "to run Forged Alliance. Please check the readme for more information."
 fi
 
