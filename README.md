@@ -9,6 +9,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
+1. If you wish to launch FAF without using the terminal, run `./install-shortcut.sh`. FAF will show up as "Forged Alliance Forever" in your application launcher.
 
 ## How to update after installation
 
