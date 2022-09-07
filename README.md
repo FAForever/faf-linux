@@ -9,6 +9,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
+1. To launch FAF, run `./run`
 1. If you wish to launch FAF without using the terminal, run `./install-shortcut.sh`. FAF will show up as "Forged Alliance Forever" in your application launcher.
 
 ## How to update after installation
@@ -37,6 +38,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
 - Forged Alliance minimizes itself on Alt-Tab: run `./launchwrapper winecfg`, go to "Graphics", then check the "Emulate a virtual desktop" box. Note: This may cause everything to break. If it does, just run `winecfg` again and uncheck the box.
+- Game crashes with "Unable to create Direct3D", logs have wine error "Application requires child window rendering": libXcomposite is missing or failed to initialize, see <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/vulkan.c#L276>, <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/x11drv_main.c#L501>, try installing `libxcomposite` or `libXcomposite` from package manager (the 32-bit version as well), then restart the X server (log out and log back in)
 
 ## Why should you use this
 
