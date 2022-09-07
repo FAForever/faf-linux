@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Forged Alliance Forever
-Comment=Lobby client for Supreme Commander: Forged Alliance (iczero/faf-linux)
-Exec={{SCRIPT_PATH}}/run
-Type=Application
-Icon={{SCRIPT_PATH}}/faf-logo.png

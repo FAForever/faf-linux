@@ -11,9 +11,16 @@ wget -O faf-logo.png "$ICON_URL"
 
 # write desktop file
 echo "Writing desktop file..."
-sed < net.hellomouse.iczero.faf-linux.desktop 's!{{SCRIPT_PATH}}!'"$basedir"'!g' | \
-    tee "$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.desktop"
+dest_path="$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.desktop"
+tee "$dest_path" <<EOF
+[Desktop Entry]
+Name=Forged Alliance Forever
+Comment=Lobby client for Supreme Commander: Forged Alliance (iczero/faf-linux)
+Exec=$basedir/run
+Type=Application
+Icon=$basedir/faf-logo.png
+EOF
+chmod a+x "$dest_path"
 
 echo
 echo Done
-
