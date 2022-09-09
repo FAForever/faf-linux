@@ -4,7 +4,23 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 
 ## How to setup
 
-1. Clone this repository (`git clone https://github.com/iczero/faf-linux`) and install the prerequisites `git wget jq cabextract` from your distribution's package manager
+1. Install prerequisites from your distribution's package manager:
+   - Ubuntu:
+     - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
+     - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386`
+   - Fedora:
+     - `sudo dnf install git wget jq cabextract libXcomposite.x86_64 libXcomposite.i686`
+   - Arch:
+     - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite`
+   - Other distributions:
+     - Commands needed: `git`, `wget`, `jq`, `cabextract`
+     - Libraries needed:
+       - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
+1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
+   - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
+   - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
+   - **Note:** the game may lag horribly or not even start. This is fine, as the rest of this guide should still work.
+1. Clone this repository (`git clone https://github.com/iczero/faf-linux`)
 1. Run Forged Alliance from Steam with Proton Experimental at least once (this is necessary to set up proton)
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
