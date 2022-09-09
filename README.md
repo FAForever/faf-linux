@@ -20,8 +20,8 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
    - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
    - **Note:** the game may lag horribly or not even start. This is fine, as the rest of this guide should still work.
+   - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
 1. Clone this repository (`git clone https://github.com/iczero/faf-linux`)
-1. Run Forged Alliance from Steam with Proton Experimental at least once (this is necessary to set up proton)
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
