@@ -1,5 +1,5 @@
 # target versions to install
 dxvk_version_target="1.10.3"
-dfc_version_target="2022.8.0"
+dfc_version_target="2022.9.0"
 java_download_url_target="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"
 javafx_download_url_target="https://download2.gluonhq.com/openjfx/18.0.1/openjfx-18.0.1_linux-x64_bin-jmods.zip"
