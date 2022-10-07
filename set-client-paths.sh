@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script to automatically set paths for the FAF client
 
-basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
 source ./common-env

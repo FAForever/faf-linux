@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run command in environment, but without wine
 
-basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
 # variables

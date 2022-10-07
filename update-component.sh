@@ -3,7 +3,7 @@
 # Currently supports updating dxvk and the faf client
 set -e
 
-basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
 source common-env

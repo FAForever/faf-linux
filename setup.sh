@@ -7,7 +7,7 @@ PROTON_VERSION="- Experimental"
 WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 STEAM_GAME_ID="9420"
 
-basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
 source ./common.sh

@@ -3,7 +3,7 @@
 
 ICON_URL="https://www.faforever.com/images/faf-logo.png"
 
-basedir="$(dirname $(readlink -f "${BASH_SOURCE[0]}"))"
+basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
 # fetch logo
