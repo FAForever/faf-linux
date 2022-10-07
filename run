@@ -4,7 +4,9 @@
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
-source ./common-env
+source ./common.sh
+load-env
+
 if [[ "$ice_adapter_debug" == "1" ]]; then
     export SHOW_ICE_ADAPTER_DEBUG_WINDOW="true"
 fi

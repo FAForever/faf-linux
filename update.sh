@@ -4,19 +4,19 @@
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
+source ./common.sh
+
 # ensure repository is up-to-date
 if ! git remote -v update; then
-    echo "WARNING: unable to update git repository!" >&2
-    read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+    warn-prompt "WARNING: unable to update git repository!"
 elif ! git merge-base --is-ancestor origin/master master; then
-    git pull --ff-only && exec ./update.sh "$@"
-    echo "WARNING: update found but pull failed" >&2
-    read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+    git pull --ff-only && echo "Update found, relaunching script..." && exec ./update.sh "$@"
+    warn-prompt "WARNING: update found but pull failed"
 fi
+echo
 
 # variables
-source ./common-env
-source ./versions
+load-env
 
 # did user want us to update?
 perform_update="no"

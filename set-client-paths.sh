@@ -4,7 +4,8 @@
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
-source ./common-env
+source ./common.sh
+load-env
 
 client_prefs="$HOME/.faforever/client.prefs"
 
