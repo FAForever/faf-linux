@@ -4,6 +4,16 @@
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
+# ensure repository is up-to-date
+if ! git remote -v update; then
+    echo "WARNING: unable to update git repository!" >&2
+    read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+elif ! git merge-base --is-ancestor origin/master master; then
+    git pull --ff-only && exec ./update.sh "$@"
+    echo "WARNING: update found but pull failed" >&2
+    read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+fi
+
 # variables
 source ./common-env
 source ./versions
