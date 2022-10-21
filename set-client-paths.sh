@@ -10,10 +10,14 @@ load-env
 client_prefs="$HOME/.faforever/client.prefs"
 
 jq --arg game_path "$game_path" \
-   --arg wrapper "$basedir/launchwrapper "'"%s"' \
+   --arg wrapper '"'"$escaped_path/launchwrapper"'" "%s"' \
    --arg prefs_path "$game_data_path/Game.prefs" \
    '.forgedAlliance += { installationPath: ($game_path), executableDecorator: ($wrapper), preferencesFile: ($prefs_path) }' \
    "$client_prefs" > "$client_prefs".new
 
+if [[ "$basedir" =~ '"' ]]; then
+   echo 'WARNING: base directory contains double quotes (")'
+   echo '    The script does not handle this properly! Your game will probably not start!'
+fi
 mv "$client_prefs".new "$client_prefs"
 echo "Done"
