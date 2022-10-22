@@ -10,7 +10,7 @@ load-env
 client_prefs="$HOME/.faforever/client.prefs"
 
 jq --arg game_path "$game_path" \
-   --arg wrapper '"'"$escaped_path/launchwrapper"'" "%s"' \
+   --arg wrapper '"'"$basedir/launchwrapper"'" "%s"' \
    --arg prefs_path "$game_data_path/Game.prefs" \
    '.forgedAlliance += { installationPath: ($game_path), executableDecorator: ($wrapper), preferencesFile: ($prefs_path) }' \
    "$client_prefs" > "$client_prefs".new
