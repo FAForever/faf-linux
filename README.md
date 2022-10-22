@@ -60,6 +60,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
   - on Arch and derivatives, install `libxcomposite` and `lib32-libxcomposite`
   - see <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/vulkan.c#L276>, <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/x11drv_main.c#L501>
 - FAF client crashes on launch with massively enormous error message, at the bottom it says something along the lines of "cannot use an unresolved DNS server address" chances are there's something in your /etc/resolv.conf that netty does not understand (for example, scoped IPv6 addresses). Install `systemd-resolved` if possible.
+- Install script errors in dxvk, game is rendered wrong: the dxvk install script currently has issues with spaces. Move `faf-linux` to a path without spaces, then try again. There is an open PR for this.
 
 ## Why should you use this
 

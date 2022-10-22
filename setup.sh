@@ -15,7 +15,11 @@ source ./common.sh
 # if you are using nonstandard paths, please add it here
 # if you've installed steam from an official or distribution package but it was
 # not found, please file an issue
-STEAM_SEARCH_PATHS=("$HOME/.local/share/Steam" "$HOME/.steam/steam")
+STEAM_SEARCH_PATHS=(
+    "$HOME/.local/share/Steam"
+    "$HOME/.steam/steam"
+    "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam"
+)
 # note: ~/.steam/steam exists even if steam is installed to ~/.local/share/Steam
 # for what appears to be compatibility reasons.
 
@@ -50,6 +54,7 @@ ensure-path "$GAME_PATH" "Could not find Forged Alliance. Please ensure you have
 ensure-bin wget --version
 ensure-bin jq --version
 ensure-bin cabextract --version
+ensure-bin patch --version
 
 # initialize environment file
 cat <<EOF > "$basedir/common-env"
