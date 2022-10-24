@@ -1,6 +1,7 @@
 #!/bin/bash
 # Main setup script
-set -e
+set -eE
+trap 'echo; echo "Script error! The installation has failed. Please report this to the author."' ERR
 
 PROTON_VERSION="- Experimental"
 # winetricks has its own self-updater
