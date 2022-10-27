@@ -17,4 +17,10 @@ if [[ "$enable_steam_integration" == "1" ]] && pgrep steam >/dev/null; then
     #WRAPPER="c:/windows/syswow64/steam.exe"
 fi
 
-exec "$basedir/launchwrapper-env" "$wine_path/bin/wine" $WRAPPER "$@"
+GAMESCOPE=""
+if [[ "$use_gamescope" == "1" ]]; then
+    # must set gamescope to be fullscreen or game will not start
+    GAMESCOPE="gamescope -f"
+fi
+
+exec "$basedir/launchwrapper-env" $GAMESCOPE "$wine_path/bin/wine" $WRAPPER "$@"

@@ -78,6 +78,7 @@ write-env "dxvk_config_file" "$basedir/dxvk.conf"
 write-env "enable_steam_integration" "0"
 write-env "ice_adapter_debug" "1"
 write-env "wine_path" "$WINE_PATH"
+write-env "use_gamescope" "0"
 
 dxvk_cache_dir="$basedir/dxvk-cache"
 mkdir -p "$dxvk_cache_dir"

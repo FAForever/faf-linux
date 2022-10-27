@@ -55,6 +55,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
 - Forged Alliance minimizes itself on Alt-Tab: run `./launchwrapper winecfg`, go to "Graphics", then check the "Emulate a virtual desktop" box. Note: This may cause everything to break. If it does, just run `winecfg` again and uncheck the box.
   - Warning: as of 2022-10-24, this *does* cause everything to break. You have been warned.
+  - Gamescope is an alternative, see below
 - Game crashes with "Unable to create Direct3D", logs have wine error "Application requires child window rendering": libXcomposite is missing or failed to initialize, try installing `libxcomposite` or `libXcomposite` from package manager (the 32-bit version as well)
   - on Debian and derivatives (including Ubuntu), install `libxcomposite:amd64` and `libxcomposite:i386`
   - on Fedora and Red Hat derivatives, install `libXcomposite` and `libXcomposite.i686`
@@ -62,6 +63,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
   - see <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/vulkan.c#L276>, <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/x11drv_main.c#L501>
 - FAF client crashes on launch with massively enormous error message, at the bottom it says something along the lines of "cannot use an unresolved DNS server address" chances are there's something in your /etc/resolv.conf that netty does not understand (for example, scoped IPv6 addresses). Install `systemd-resolved` if possible.
 - Install script errors in dxvk, game is rendered wrong: the dxvk install script currently has issues with spaces. Move `faf-linux` to a path without spaces, then try again. There is an open PR for this.
+- If you encounter strange display issues, consider using gamescope. In `common-env`, set `use_gamescope="1"` (or add that line if it does not already exist)
 
 ## Why should you use this
 
