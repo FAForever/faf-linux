@@ -9,11 +9,11 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
      - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386`
    - Fedora:
-     - `sudo dnf install git wget jq cabextract libXcomposite.x86_64 libXcomposite.i686`
+     - `sudo dnf install git wget jq cabextract patch libXcomposite.x86_64 libXcomposite.i686`
    - Arch:
      - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite`
    - Other distributions:
-     - Commands needed: `git`, `wget`, `jq`, `cabextract`
+     - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
      - Libraries needed:
        - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
