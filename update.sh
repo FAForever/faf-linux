@@ -7,9 +7,10 @@ cd "$basedir"
 source ./common.sh
 
 # ensure repository is up-to-date
+current_branch="$(git branch --show-current)"
 if ! git remote -v update; then
     warn-prompt "WARNING: unable to update git repository!"
-elif ! git merge-base --is-ancestor origin/master master; then
+elif ! git merge-base --is-ancestor origin/"$current_branch" "$current_branch"; then
     git pull --ff-only && echo "Update found, relaunching script..." && exec ./update.sh "$@"
     warn-prompt "WARNING: update found but pull failed"
 fi
