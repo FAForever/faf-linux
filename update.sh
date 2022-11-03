@@ -42,11 +42,10 @@ if [[ "$dfc_version_current" != "$dfc_version_target" ]]; then
     fi
 fi
 
-should_update_java="no"
 if [[ "$java_download_url_current" != "$java_download_url_target" ]]; then
     echo "Java runtime from URL $java_download_url_current is installed, but does not match target ($java_download_url_target)"
     has_updates="yes"
-    if [[ "$perform_update" = "yes" ]] && [[ "$should_update_java" = "yes" ]]; then
+    if [[ "$perform_update" = "yes" ]]; then
         ./update-component.sh java "$java_download_url_target"
     fi
 fi
