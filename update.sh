@@ -46,17 +46,9 @@ should_update_java="no"
 if [[ "$java_download_url_current" != "$java_download_url_target" ]]; then
     echo "Java runtime from URL $java_download_url_current is installed, but does not match target ($java_download_url_target)"
     has_updates="yes"
-    should_update_java="yes"
-fi
-
-if [[ "$javafx_download_url_current" != "$javafx_download_url_target" ]]; then
-    echo "JavaFX modules from URL $javafx_download_url_current is installed, but does not match target ($javafx_download_url_target)"
-    has_updates="yes"
-    should_update_java="yes"
-fi
-
-if [[ "$perform_update" = "yes" ]] && [[ "$should_update_java" = "yes" ]]; then
-    ./update-component.sh java "$java_download_url_target" "$javafx_download_url_target"
+    if [[ "$perform_update" = "yes" ]] && [[ "$should_update_java" = "yes" ]]; then
+        ./update-component.sh java "$java_download_url_target"
+    fi
 fi
 
 if [[ "$perform_update" != "yes" ]] && [[ "$has_updates" = "yes" ]]; then

@@ -93,7 +93,7 @@ chmod a+x winetricks
 
 "$basedir/update-component.sh" faf-client "$dfc_version_target"
 
-"$basedir/update-component.sh" java "$java_download_url_target" "$javafx_download_url_target"
+"$basedir/update-component.sh" java "$java_download_url_target"
 
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u

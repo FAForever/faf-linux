@@ -72,47 +72,19 @@ function update-dfc() {
 
 function update-java() {
    java_url="$1"
-   javafx_url="$2"
 
    block-print "Downloading java"
    wget -O "java.tar.gz" "$java_url"
    block-print "Extracting java"
-   java_path_orig="$(tar -tf "java.tar.gz" | head -n 1 | cut -d '/' -f 1)"
+   java_path="$(tar -tf "java.tar.gz" | head -n 1 | cut -d '/' -f 1)"
    if [[ -d "$java_path_orig" ]]; then
       echo "note: requested java version already exists"
    fi
    tar -xvf "java.tar.gz"
-   block-print "Downloading javafx"
-   wget -O "javafx.zip" "$javafx_url"
-
-   block-print "Extracting javafx"
-   pushd "$java_path_orig"
-   # what follows are multiple extremely bad hacks
-   unzip "../javafx.zip"
-   javafx_jmods_dir=("javafx-jmods-"*)
-   cp -rv "$javafx_jmods_dir/"* "jmods/"
-   rm -r "$javafx_jmods_dir"
-   # unfortunately, adoptopenjdk does not provide java builds with javafx
-   # even more unfortunately, the openjfx "sdk" segfaults immediately
-   # to get a working JRE with javafx, we have to manually rebuild one with jlink
-   block-print "Rebuilding jre"
-   jmods="$(ls jmods | sed -E 's/\.jmod$//' | tr '\n' ',')"
-   java_path="${java_path_orig}-javafx"
-   echo "jlink..."
-   if [[ -d "../$java_path" ]]; then
-      echo "removing old built jre"
-      rm -rf "../$java_path"
-   fi
-   bin/jlink -p jmods --add-modules "$jmods" --output "../$java_path"
-   popd
-   write-env java_path "$java_path"
-   echo "deleting old downloaded java..."
-   rm -rf "$java_path_orig"
    rm "java.tar.gz"
-   rm "javafx.zip"
 
+   write-env java_path "$java_path"
    write-env "java_download_url_current" "$java_url"
-   write-env "javafx_download_url_current" "$javafx_url"
 
    echo
    echo "Done"
