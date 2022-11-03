@@ -23,7 +23,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
 1. Clone this repository (`git clone https://github.com/iczero/faf-linux`)
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
-   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh`.
+   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 1. To launch FAF, run `./run`
@@ -33,22 +33,22 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 
 1. Pull latest version of the scripts and version files (`git pull`)
 1. Run `./update.sh perform` to update necessary components automatically
-1. If desired, old versions of dxvk and the faf client can be removed manually
+1. The update script will not automatically remove old versions currently. If new versions work, old versions are safe to delete.
 
-## Updating individual components
+## Manually updating individual components
 
-The script `./update-component.sh` is provided for convenient updating of certain parts.
+The script `./update-component.sh` is provided for convenient updating of certain parts. Generally you do not need to use this.
 
 - To update dxvk, run `./update-component.sh dxvk <new version>`. Versions look like "1.9.3".
 - To update the FAF client, run `./update-component.sh faf-client <new version>`. Versions look like "2021.10.0".
 - To update java, run `./update-component.sh java "<java url>"`.
-  - The FAF client (at time of writing) wants Java 18.
-  - Java URL is currently <https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz>
+  - The FAF client (at time of writing) wants Java 17.
+  - Java URL is currently <https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.5_8.tar.gz>
   - These may change in the future. Check the `versions` file for current working URLs.
 
 ## Help, it doesn't work!
 
-Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af).
+Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af), channel `#linux-support`.
 
 ## Weird issues and other nonsense
 
