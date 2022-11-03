@@ -23,4 +23,7 @@ if [[ "$use_gamescope" == "1" ]]; then
     GAMESCOPE="gamescope -f"
 fi
 
+# fork updater
+./update.sh autoupdate-notify &
+
 exec "$basedir/launchwrapper-env" $GAMESCOPE "$wine_path/bin/wine" $WRAPPER "$@"

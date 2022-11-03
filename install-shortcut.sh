@@ -15,7 +15,7 @@ dest_path="$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.deskt
 tee "$dest_path" <<EOF
 [Desktop Entry]
 Name=Forged Alliance Forever
-Comment=Lobby client for Supreme Commander: Forged Alliance (iczero/faf-linux)
+Comment=Lobby client for Supreme Commander: Forged Alliance (faf-linux)
 Exec=$basedir/run
 Type=Application
 Icon=$basedir/faf-logo.png

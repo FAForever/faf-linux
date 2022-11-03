@@ -6,13 +6,47 @@ cd "$basedir"
 
 source ./common.sh
 
+if [[ "$SCRIPT_DID_UPDATE" = "1" ]]; then
+    echo "Scripts updated."
+fi
+
+do_notify="no"
+update_ratelimit_file="common-env" # TODO: maybe use a different file?
+if [[ "$1" = "autoupdate-notify" ]]; then
+    # ratelimit updates to once per day
+    last_checked="$(date -r "$update_ratelimit_file" '+%s')"
+    if [[ $(( "$(date '+%s')" - "$last_checked" )) -lt 86400 ]]; then
+        exit 0
+    fi
+    do_notify="yes"
+    echo "faf-linux autoupdate: checking for updates"
+fi
+
 # ensure repository is up-to-date
 current_branch="$(git branch --show-current)"
 if ! git remote -v update; then
     warn-prompt "WARNING: unable to update git repository!"
+    [[ "$do_notify" = "yes" ]] && exit 1
 elif ! git merge-base --is-ancestor origin/"$current_branch" "$current_branch"; then
-    git pull --ff-only && echo "Update found, relaunching script..." && exec ./update.sh "$@"
+    if [[ "$do_notify" = "yes" ]]; then
+        echo "faf-linux autoupdate: update found"
+        notify-send -t 15000 'faf-linux' "An update is available. \
+            Please run './update.sh' in $basedir" || echo "notify-send unavailable"
+        exit 0
+    fi
+    if [[ "$SCRIPT_DID_UPDATE" = "1" ]]; then
+        # ensure infinite loop does not happen
+        echo "WARNING: failed to update?" 2>&1
+        exit 1
+    fi
+    git pull --ff-only && echo "Update found, relaunching script..." && \
+        SCRIPT_DID_UPDATE=1 exec ./update.sh "$@"
     warn-prompt "WARNING: update found but pull failed"
+elif [[ "$do_notify" = "yes" ]]; then
+    # we assume that if a user runs git pull manually, they know what they are doing
+    echo "faf-linux autoupdate: no updates found"
+    touch "$update_ratelimit_file"
+    exit 0
 fi
 echo
 
