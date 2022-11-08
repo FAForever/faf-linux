@@ -44,7 +44,7 @@ fi
 PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
 WINE_PATH="$PROTON_PATH/files"
 GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
-GAME_DATA_PATH="Local Settings/Application Data/Gas Powered Games/Supreme Commander Forged Alliance"
+GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
 
 # ensure correct paths for steam and proton
 ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed."
