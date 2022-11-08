@@ -129,5 +129,7 @@ fi
 # prompt user to log in
 echo
 echo "Setup complete. Please log in to the FAF client."
+echo "If, at this point, you have not yet read the README, please do so now:"
+echo "  https://github.com/FAForever/faf-linux/blob/master/README.md"
 echo "Additional configuration needs to be set in order to launch the game properly."
 echo "When you are done logging in, please close the client and run './set-client-paths.sh'."
