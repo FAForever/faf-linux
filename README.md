@@ -1,16 +1,16 @@
 # FAF on Linux
 
-A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on Ubuntu and Fedora, should work on other distributions as well.
+A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on Ubuntu, Fedora, and Arch, should work on other distributions as well.
 
-## How to setup
+## Setup instructions
 
 1. Install prerequisites from your distribution's package manager:
-   - Ubuntu:
+   - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
      - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386`
-   - Fedora:
+   - Fedora and Red Hat-based:
      - `sudo dnf install git wget jq cabextract patch libXcomposite.x86_64 libXcomposite.i686`
-   - Arch:
+   - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
      - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite`
    - Other distributions:
      - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
@@ -21,7 +21,9 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
    - **Note:** the game may lag horribly or not even start. This is fine, as the rest of this guide should still work.
    - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
-1. Clone this repository (`git clone https://github.com/FAForever/faf-linux`)
+1. Clone this repository
+  - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
+  - This will create a new folder named faf-linux, where the client will be installed.
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
    - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
 1. Start the FAF client with `./run` and log in
