@@ -19,7 +19,7 @@ Comment=Lobby client for Supreme Commander: Forged Alliance (faf-linux)
 Exec=$basedir/run
 Type=Application
 Icon=$basedir/faf-logo.png
-Categroies=Network;Game;
+Categories=Network;Game;
 EOF
 chmod a+x "$dest_path"
 
