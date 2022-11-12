@@ -24,32 +24,91 @@ STEAM_SEARCH_PATHS=(
 # note: ~/.steam/steam exists even if steam is installed to ~/.local/share/Steam
 # for what appears to be compatibility reasons.
 
-echo "looking for Steam..."
-for f in "${STEAM_SEARCH_PATHS[@]}"; do
-    if [[ -d "$f" ]]; then
-        echo "found Steam: $f"
-        STEAM_PATH="$f"
-        break
-    else
-        echo "not found: $f"
-    fi
-done
+if [[ "$BYPASS_STEAM" != "1" ]]; then
+    echo "looking for Steam..."
+    for f in "${STEAM_SEARCH_PATHS[@]}"; do
+        if [[ -f "$f/steamapps/libraryfolders.vdf" ]]; then
+            echo "found Steam: $f"
+            STEAM_PATH="$f"
+            break
+        else
+            echo "not found: $f"
+        fi
+    done
 
-if [[ -z "$STEAM_PATH" ]]; then
-    echo
-    echo "Could not find Steam. If Steam is installed at a different location, please modify the STEAM_SEARCH_PATHS variable to match." >&2
-    exit 1
+    if [[ -z "$STEAM_PATH" ]]; then
+        echo
+        echo "Could not find Steam. If Steam is installed at a different location, please modify the STEAM_SEARCH_PATHS variable to match." >&2
+        exit 1
+    fi
+
+    # parse libraryfolders.vdf
+    libraryfolders=()
+    while IFS='' read -u 10 f; do
+        if [[ -d "$f" ]]; then
+            echo "found steam library folder: $f"
+            libraryfolders+=("$f")
+        fi
+    done 10<<< "$( \
+        # cursed parse
+        grep -Po '"path"\s+".+"$' "$STEAM_PATH/steamapps/libraryfolders.vdf" | \
+            cut -sd $'\t' -f 3 | \
+            cut -sd '"' -f 2)"
+
+    if [[ "${#libraryfolders[@]}" = "0" ]]; then
+        echo "warning: failed to parse library folders"
+        libraryfolders+=("$STEAM_PATH")
+    fi
+
+    # search every known library folder for app name
+    rv=''
+    function find-app() {
+        for f in "${libraryfolders[@]}"; do
+            local try_path="$f/steamapps/common/$1"
+            if [[ -d "$try_path" ]]; then
+                echo "found $1 at $try_path"
+                rv="$try_path"
+                return 0
+            fi
+        done
+        return 1
+    }
+    
+    # find game and proton install path
+    if ! find-app "Proton $PROTON_VERSION"; then
+        echo "Could not find Proton $PROTON_VERSION." >&2
+        echo "Please run the game from Steam at least once with the selected Proton version." >&2
+        exit 1
+    fi
+    PROTON_PATH="$rv"
+
+    if ! find-app "Supreme Commander Forged Alliance"; then
+        echo "Could not find Forged Alliance." >&2
+        echo "Please ensure Supreme Commander: Forged Alliance is installed on Steam." >&2
+        exit 1
+    fi
+    GAME_PATH="$rv"
+else
+    if [[ -z "$GAME_PATH" ]]; then
+        echo "error: need GAME_PATH if not using Steam" >&2
+        exit 1
+    fi
+    if [[ -z "$PROTON_PATH" ]] && [[ -z "$WINE_PATH" ]]; then
+        echo "error: need PROTON_PATH or WINE_PATH set if not using Steam" >&2
+        exit 1
+    fi
 fi
 
-PROTON_PATH="$STEAM_PATH/steamapps/common/Proton $PROTON_VERSION"
-WINE_PATH="$PROTON_PATH/files"
-GAME_PATH="$STEAM_PATH/steamapps/common/Supreme Commander Forged Alliance"
-GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
+proton_wine_subdir="files" # this changes sometimes, for some reason
+if [[ ! -z "$PROTON_PATH" ]]; then 
+    ensure-path "$PROTON_PATH/$proton_wine_subdir" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
+    WINE_PATH="$PROTON_PATH/$proton_wine_subdir"
+fi
+# ensure paths are valid, especially if the user passed them manually
+ensure-path "$WINE_PATH" "error: wine not found!"
+ensure-path "$GAME_PATH" "error: SC:FA not found!"
 
-# ensure correct paths for steam and proton
-ensure-path "$PROTON_PATH" "Could not find Proton at $PROTON_PATH, please ensure Proton $PROTON_VERSION is installed."
-ensure-path "$PROTON_PATH/files" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
-ensure-path "$GAME_PATH" "Could not find Forged Alliance. Please ensure you have it installed in Steam."
+GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
 
 # required programs: wget jq cabextract
 ensure-bin wget --version
@@ -66,8 +125,8 @@ EOF
 
 wineprefix="$basedir/prefix"
 write-env "wineprefix" "$wineprefix"
-write-env "steam_path" "$STEAM_PATH"
-write-env "proton_path" "$PROTON_PATH"
+[[ ! -z "$STEAM_PATH" ]] && write-env "steam_path" "$STEAM_PATH"
+[[ ! -z "$PROTON_PATH" ]] && write-env "proton_path" "$PROTON_PATH"
 write-env "steam_game_id" "$STEAM_GAME_ID"
 write-env "game_path" "$GAME_PATH"
 write-env "game_data_path" "$wineprefix/drive_c/users/steamuser/$GAME_DATA_PATH"
