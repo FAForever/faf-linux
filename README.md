@@ -22,8 +22,8 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - **Note:** the game may lag horribly or not even start. This is fine, as the rest of this guide should still work.
    - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
 1. Clone this repository
-  - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
-  - This will create a new folder named faf-linux, where the client will be installed.
+   - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
+   - This will create a new folder named faf-linux, where the client will be installed.
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
    - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
 1. Start the FAF client with `./run` and log in
@@ -33,7 +33,6 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 
 ## How to update after installation
 
-1. Pull latest version of the scripts and version files (`git pull`)
 1. Run `./update.sh perform` to update necessary components automatically
 1. The update script will not automatically remove old versions currently. If new versions work, old versions are safe to delete.
 
