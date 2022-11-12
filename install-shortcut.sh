@@ -11,7 +11,7 @@ wget -O faf-logo.png "$ICON_URL"
 
 # write desktop file
 echo "Writing desktop file..."
-dest_path="$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.desktop"
+dest_path="$HOME/.local/share/applications/com.faforever.faf-linux.desktop"
 tee "$dest_path" <<EOF
 [Desktop Entry]
 Name=Forged Alliance Forever
@@ -23,5 +23,9 @@ Categories=Network;Game;
 EOF
 chmod a+x "$dest_path"
 
+if [[ -f "$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.desktop" ]]; then
+    echo "Removing old entry"
+    rm -v "$HOME/.local/share/applications/net.hellomouse.iczero.faf-linux.desktop"
+fi
 echo
 echo Done
