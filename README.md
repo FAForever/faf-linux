@@ -67,6 +67,13 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 - Install script errors in dxvk, game is rendered wrong: the dxvk install script currently has issues with spaces. Move `faf-linux` to a path without spaces, then try again. There is an open PR for this.
 - If you encounter strange display issues, consider using gamescope. In `common-env`, set `use_gamescope="1"` (or add that line if it does not already exist)
 - Mod selector in client doesn't work: this has been fixed by a recent commit, however it only takes effect on new installations. To fix the problem without a reinstall, find `game_data_path` in `common-env`, then replace `Local Settings/Application Data` with `AppData/Local`.
+- Failed to create vulkan instance
+  - May appear as:
+    - `0024:err:vulkan:__wine_create_vk_instance_with_callback Failed to create instance`
+    - `terminate called after throwing an instance of 'dxvk::DxvkError'`
+  - Possible issues:
+    - Vulkan drivers are not installed. Please install the appropriate Vulkan drivers for your GPU and distribution and install them.
+    - You are on Arch and have accidentally installed `lib32-amdvlk`. AMDVLK is the old AMD Vulkan driver and causes many issues. Unless you are sure you need AMDVLK, uninstall `lib32-amdvlk`, and if necessary, install `lib32-vulkan-radeon` (newer AMD RADV driver) in its place.
 
 ## Why should you use this
 
