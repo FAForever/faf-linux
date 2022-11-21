@@ -29,7 +29,9 @@ function write-env() {
 
 function warn-prompt() {
     echo "$@" >&2
-    read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+    if [[ ! "$warn_prompt_headless" = 1 ]]; then
+        read -n 1 -s -r -p "Press any key to continue, or Ctrl-C to cancel..."
+    fi
 }
 
 function load-env() {

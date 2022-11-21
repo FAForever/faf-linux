@@ -18,6 +18,7 @@ if [[ "$1" = "autoupdate-notify" ]]; then
     if [[ $(( "$(date '+%s')" - "$last_checked" )) -lt 86400 ]]; then
         exit 0
     fi
+    warn_prompt_headless="1"
     do_notify="yes"
     echo "faf-linux autoupdate: checking for updates"
 fi

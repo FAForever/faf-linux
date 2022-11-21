@@ -20,10 +20,16 @@ fi
 GAMESCOPE=""
 if [[ "$use_gamescope" == "1" ]]; then
     # must set gamescope to be fullscreen or game will not start
-    GAMESCOPE="gamescope -f"
+    GAMESCOPE="gamescope -f --"
 fi
 
 # fork updater
 ./update.sh autoupdate-notify &
+
+# this doesn't work lmao
+# if [[ ! -z "$FAF_LINUX_LAUNCH_DEBUGGER" ]]; then
+#     $FAF_LINUX_DEBUG_TERM gdb -iex "set sysroot $wineprefix/dosdevices" -iex "target extended-remote localhost:31900" &
+#     exec "$basedir/launchwrapper-env" $GAMESCOPE -- "$wine_path/bin/wine" $FAF_LINUX_LAUNCH_DEBUGGER localhost:31900 "$@"
+# fi
 
 exec "$basedir/launchwrapper-env" $GAMESCOPE "$wine_path/bin/wine" $WRAPPER "$@"
