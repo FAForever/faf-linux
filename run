@@ -13,5 +13,9 @@ fi
 
 export INSTALL4J_JAVA_HOME="$basedir/$java_path"
 
+# fork updater into background
+./update.sh autoupdate-notify &
+
+
 cd "$dfc_path"
 exec ./faf-client

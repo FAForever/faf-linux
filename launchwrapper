@@ -23,9 +23,6 @@ if [[ "$use_gamescope" == "1" ]]; then
     GAMESCOPE="gamescope -f --"
 fi
 
-# fork updater
-./update.sh autoupdate-notify &
-
 # this doesn't work lmao
 # if [[ ! -z "$FAF_LINUX_LAUNCH_DEBUGGER" ]]; then
 #     $FAF_LINUX_DEBUG_TERM gdb -iex "set sysroot $wineprefix/dosdevices" -iex "target extended-remote localhost:31900" &
