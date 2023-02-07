@@ -163,7 +163,9 @@ block-print "Running winetricks"
 
 # ensure libXcomposite exists
 echo "looking for libXcomposite.so.1..."
-ldconfig_search="$(ldconfig -p | grep -F "libXcomposite.so.1")"
+# debian doesn't have sbin in path by default
+ldconfig="$(PATH="$PATH:/bin:/sbin:/usr/bin:/usr/sbin" which ldconfig)"
+ldconfig_search="$("$ldconfig" -p | grep -F "libXcomposite.so.1")"
 if grep -F "libXcomposite.so.1 (libc6,x86-64)" <<< "$ldconfig_search"; then
     echo "found libXcomposite.so.1 (64-bit)"
     xcomp_found_64=1
