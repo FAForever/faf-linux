@@ -148,7 +148,7 @@ wget -O winetricks "$WINETRICKS_URL"
 chmod a+x winetricks
 
 # ensure we are actually using the wine version we want
-wine_expected="$(readlink -f "$wine_path/bin/wine")"
+wine_expected="$(readlink -f "$WINE_PATH/bin/wine")"
 wine_actual="$("$basedir/launchwrapper-env" which wine)"
 if [[ "$wine_expected" != "$wine_actual" ]]; then
     echo "error: wrong wine on path!"
