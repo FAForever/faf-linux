@@ -8,7 +8,7 @@ add-dll-override() {
 }
 
 copy-dll() {
-    cp --reflink -v "$dxvk_path/$1/$2.dll" "$3"
+    cp --reflink=auto -v "$dxvk_path/$1/$2.dll" "$3"
 }
 
 install-dll() {
