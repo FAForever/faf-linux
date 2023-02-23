@@ -7,15 +7,16 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386`
+     - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386 libfreetype6:amd64 libfreetype6:i386`
    - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract patch libXcomposite.x86_64 libXcomposite.i686`
+     - `sudo dnf install git wget jq cabextract patch libXcomposite.x86_64 libXcomposite.i686 freetype.x86_64 freetype.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
-     - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite`
+     - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite freetype2 lib32-freetype2`
    - Other distributions:
      - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
      - Libraries needed:
        - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
+       - Both 32-bit and 64-bit versions of `libfreetype.so.6`
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
    - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
    - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
