@@ -24,15 +24,11 @@ function update-dxvk() {
       block-print "Extracting dxvk"
       tar -xvf "$dxvk_archive"
       rm "$dxvk_archive"
-
-      pushd "$dxvk_extracted"
-      # patch dxvk to work with proton
-      patch setup_dxvk.sh "$basedir/setup_dxvk.sh.patch"
-      popd
    fi
 
    block-print "Installing dxvk"
-   "$basedir/launchwrapper-env" "$basedir/$dxvk_extracted/setup_dxvk.sh" install
+   ./launchwrapper-env tools/dxvk-install.sh "$dxvk_extracted"
+   
    write-env "dxvk_path" "$dxvk_extracted"
 
    write-env "dxvk_version_current" "$dxvk_version"
@@ -62,6 +58,7 @@ function update-dfc() {
    fi
 
    # update path in env anyways to allow for fast version switching
+   echo "Switching to faf-client version $dfc_version"
    write-env "dfc_path" "$dfc_extracted"
 
    write-env "dfc_version_current" "$dfc_version"
