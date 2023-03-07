@@ -62,7 +62,7 @@ fi
 
 has_updates="no"
 
-if [[ "$dxvk_version_current" != "$dxvk_version_target" ]]; then
+if [[ "$dxvk_version_current" != "$dxvk_version_target" ]] && [[ "$dxvk_pin_version" != "1" ]]; then
     echo "DXVK version $dxvk_version_current is installed, but does not match target version ($dxvk_version_target)"
     has_updates="yes"
     if [[ "$perform_update" = "yes" ]]; then
