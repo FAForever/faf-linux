@@ -76,6 +76,13 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
     - Vulkan drivers are not installed. Please install the appropriate Vulkan drivers for your GPU and distribution and install them.
     - 32-bit graphics drivers (including Vulkan libraries) are not installed. Please ensure both 32-bit and 64-bit graphics drivers, including Vulkan support, are installed.
     - You are on Arch and have accidentally installed `lib32-amdvlk`. AMDVLK is the old AMD Vulkan driver and causes many issues. Unless you are sure you need AMDVLK, uninstall `lib32-amdvlk`, and if necessary, install `lib32-vulkan-radeon` (newer AMD RADV driver) in its place.
+- No adapters found
+  - May appear as:
+    - `Skipping Vulkan 1.2 adapter`
+    - `DXVK: No adapters found.`
+    - "Requested display count exceeds those available."
+  - Your graphics driver lacks support for features required by the installed dxvk version. Please update your graphics drivers if possible.
+  - If updating graphics drivers is not an option, manually downgrade dxvk (`./update-component.sh dxvk 1.10.3`) then add the line `dxvk_pin_version="1"` at the bottom of `common-env` to prevent the updater script from reverting to a newer version of dxvk.
 
 ## Why should you use this
 ﻿
