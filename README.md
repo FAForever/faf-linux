@@ -70,13 +70,15 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
 - Failed to create vulkan instance
   - May appear as:
     - `0024:err:vulkan:__wine_create_vk_instance_with_callback Failed to create instance`
+    - `0024:err:vulkan:wine_vk_instance_load_physical_devices Failed to enumerate physical devices, res=-3`
     - `terminate called after throwing an instance of 'dxvk::DxvkError'`
   - Possible issues:
     - Vulkan drivers are not installed. Please install the appropriate Vulkan drivers for your GPU and distribution and install them.
+    - 32-bit graphics drivers (including Vulkan libraries) are not installed. Please ensure both 32-bit and 64-bit graphics drivers, including Vulkan support, are installed.
     - You are on Arch and have accidentally installed `lib32-amdvlk`. AMDVLK is the old AMD Vulkan driver and causes many issues. Unless you are sure you need AMDVLK, uninstall `lib32-amdvlk`, and if necessary, install `lib32-vulkan-radeon` (newer AMD RADV driver) in its place.
 
 ## Why should you use this
-
+﻿
 - Years of my own suffering have culminated in this massive pile of hacks
 - I will literally fix your issues with you over discord because I have no life
 - I suck at faf so I literally spend more time maintaining these scripts than playing faf
