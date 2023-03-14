@@ -17,6 +17,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - Libraries needed:
        - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
        - Both 32-bit and 64-bit versions of `libfreetype.so.6`
+   - **Note:** Non-standard distributions such as NixOS may not directly be supported. Please consider using [Distrobox](https://github.com/89luca89/distrobox) or similar.
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
    - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
    - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
