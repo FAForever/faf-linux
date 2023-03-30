@@ -51,7 +51,7 @@ The script `./update-component.sh` is provided for convenient updating of certai
 
 ## Help, it doesn't work!
 
-Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af), channel `#linux-support`.
+Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af) in the `tech-support-forum` channel.
 
 ## Weird issues and other nonsense
 
