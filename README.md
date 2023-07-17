@@ -7,14 +7,15 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract libxcomposite1:amd64 libxcomposite1:i386 libfreetype6:amd64 libfreetype6:i386`
+     - `sudo apt install git wget jq cabextract libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libxcomposite1:amd64 libxcomposite1:i386 libfreetype6:amd64 libfreetype6:i386`
    - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract patch libXcomposite.x86_64 libXcomposite.i686 freetype.x86_64 freetype.i686`
+     - `sudo dnf install git wget jq cabextract patch gstreamer1 gstreamer1-plugins-base gstreamer1-plugins-good libXcomposite.x86_64 libXcomposite.i686 freetype.x86_64 freetype.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
-     - `sudo pacman -Syu git wget jq cabextract libxcomposite lib32-libxcomposite freetype2 lib32-freetype2`
+     - `sudo pacman -Syu git wget jq cabextract gstreamer gst-plugins-base gst-plugins-good libxcomposite lib32-libxcomposite freetype2 lib32-freetype2`
    - Other distributions:
      - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
      - Libraries needed:
+       - 64-bit version of `libgstreamer-1.0.so.0` and the "base" and "good" plugins set
        - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
        - Both 32-bit and 64-bit versions of `libfreetype.so.6`
    - **Note:** Non-standard distributions such as NixOS may not directly be supported. Please consider using [Distrobox](https://github.com/89luca89/distrobox) or similar.
@@ -84,9 +85,11 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
     - "Requested display count exceeds those available."
   - Your graphics driver lacks support for features required by the installed dxvk version. Please update your graphics drivers if possible.
   - If updating graphics drivers is not an option, manually downgrade dxvk (`./update-component.sh dxvk 1.10.3`) then add the line `dxvk_pin_version="1"` at the bottom of `common-env` to prevent the updater script from reverting to a newer version of dxvk.
+- `setup.sh` hangs on the `wineboot` step
+  - Please check to see if GStreamer is installed (see step 1 of setup instructions).
 
 ## Why should you use this
-﻿
+
 - Years of my own suffering have culminated in this massive pile of hacks
 - I will literally fix your issues with you over discord because I have no life
 - I suck at faf so I literally spend more time maintaining these scripts than playing faf
