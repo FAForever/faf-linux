@@ -27,6 +27,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Clone this repository
    - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
    - This will create a new folder named faf-linux, where the client will be installed.
+   - Do *not* put `faf-linux` within the game directory or any other Steam-managed directories. It will not function properly.
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
    - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
 1. Start the FAF client with `./run` and log in
