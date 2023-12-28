@@ -21,7 +21,7 @@ function ensure-lib() {
         # check presence on native system
         if [[ 0 = $(ldconfig -p | grep $lib | grep /lib/ | wc -l) ]]; then
             # check presence within proton
-            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib/$lib*" | wc -l) ]]; then
+            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib/$lib*" 2>/dev/null | wc -l) ]]; then
                 echo "Could not find $lib (32bit)" >&2
                 error=1
                 continue
@@ -40,7 +40,7 @@ function ensure-lib64() {
         # check presence on native system
         if [[ 0 = $(ldconfig -p | grep $lib | grep /lib64/ | wc -l) ]]; then
             # check presence within proton
-            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib64/$lib*" | wc -l) ]]; then
+            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib64/$lib*" 2>/dev/null | wc -l) ]]; then
                 echo "Could not find $lib (64bit)" >&2
                 error=1
                 continue
