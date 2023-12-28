@@ -177,32 +177,6 @@ block-print "Running winetricks"
 # install dxvk into prefix
 "$basedir/update-component.sh" dxvk "$dxvk_version_target"
 
-# ensure libXcomposite exists
-echo "looking for libXcomposite.so.1..."
-# debian doesn't have sbin in path by default
-ldconfig="$(PATH="$PATH:/bin:/sbin:/usr/bin:/usr/sbin" which ldconfig)"
-ldconfig_search="$("$ldconfig" -p | grep -F "libXcomposite.so.1")"
-if grep -F "libXcomposite.so.1 (libc6,x86-64)" <<< "$ldconfig_search"; then
-    echo "found libXcomposite.so.1 (64-bit)"
-    xcomp_found_64=1
-fi
-if grep -F "libXcomposite.so.1 (libc6)" <<< "$ldconfig_search"; then
-    echo "found libXcomposite.so.1 (32-bit)"
-    xcomp_found_32=1
-fi
-
-if [[ "$xcomp_found_32" != "1" ]] || [[ "$xcomp_found_64" != "1" ]]; then
-    block-print "WARNING: Cannot find libXcomposite.so.1"
-    if [[ "$xcomp_found_32" != "1" ]]; then
-        echo "Could not find a 32-bit version of libXcomposite.so.1"
-    fi
-    if [[ "$xcomp_found_64" != "1" ]]; then
-        echo "Could not find a 64-bit version of libXcomposite.so.1"
-    fi
-    echo "Both 32-bit and 64-bit versions of libXcomposite.so.1 are required" \
-        "to run Forged Alliance. Please check the readme for more information."
-fi
-
 # prompt user to log in
 echo
 echo "Setup complete. Please log in to the FAF client."
