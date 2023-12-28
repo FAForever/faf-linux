@@ -15,6 +15,42 @@ function ensure-bin() {
     fi
 }
 
+# ensure all libraries passed are present in 32bit versions
+function ensure-lib() {
+    error=0
+    for lib in "$@"; do
+        # check presence on native system
+        if [[ 0 = $(ldconfig -p | grep $lib | grep /lib/ | wc -l) ]]; then
+            # check presence within proton
+            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib/$lib*" | wc -l) ]]; then
+                echo "not found $lib (32bit)" >&2
+                error=1
+            fi
+        fi
+    done
+    if [ $error ];then
+        exit 1;
+    fi
+}
+
+# ensure all libraries passed are present in 64bit versions
+function ensure-lib64() {
+    error=0
+    for lib in "$@"; do
+        # check presence on native system
+        if [[ 0 = $(ldconfig -p | grep $lib | grep /lib64/ | wc -l) ]]; then
+            # check presence within proton
+            if [[ 0 = $(ls "$PROTON_PATH/$proton_wine_subdir/lib64/$lib*" | wc -l) ]]; then
+                echo "not found $lib (64bit)" >&2
+                error=1
+            fi
+        fi
+    done
+    if [ $error ];then
+        exit 1;
+    fi
+}
+
 function ensure-path() {
     if [[ ! -d "$1" ]]; then
         echo "$2" >&2
