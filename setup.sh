@@ -121,7 +121,6 @@ block-print "Checking libraries"
 echo "Found the following libraries:"
 ensure-lib libXrandr libpulse libvulkan libXfixes libXcursor libXi libXcomposite libfreetype
 ensure-lib64 libXcomposite libgstreamer
-exit 0
 
 # initialize environment file
 cat <<EOF > "$basedir/common-env"
