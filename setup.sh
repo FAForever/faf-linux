@@ -73,7 +73,7 @@ if [[ "$BYPASS_STEAM" != "1" ]]; then
         done
         return 1
     }
-    
+
     # find game and proton install path
     if ! find-app "Proton $PROTON_VERSION"; then
         echo "Could not find Proton $PROTON_VERSION." >&2
@@ -100,7 +100,7 @@ else
 fi
 
 proton_wine_subdir="files" # this changes sometimes, for some reason
-if [[ ! -z "$PROTON_PATH" ]]; then 
+if [[ ! -z "$PROTON_PATH" ]]; then
     ensure-path "$PROTON_PATH/$proton_wine_subdir" "Proton $PROTON_VERSION does not appear to be extracted. Please run Proton at least once."
     WINE_PATH="$PROTON_PATH/$proton_wine_subdir"
 fi
@@ -115,6 +115,39 @@ ensure-bin wget --version
 ensure-bin jq --version
 ensure-bin cabextract --version
 ensure-bin patch --version
+
+# required libraries
+ld_cache="$(ldconfig -p | cut -s -d $'\t' -f 2)"
+required_libs=(libvulkan.so.1 libpulse.so.0 libfreetype.so.6 libXcomposite.so.1 libXrandr.so.2 libXfixes.so.3 libXcursor.so.1 libXi.so.6)
+not_found=()
+
+block-print "Checking required libraries..."
+
+for library in "${required_libs[@]}"; do
+    if ! grep -F "$library (libc6,x86-64)" <<< "$ld_cache"; then
+        echo "could NOT find $library (64-bit)"
+        not_found+=("$library (64-bit)")
+    fi
+    if ! grep -F "$library (libc6)" <<< "$ld_cache"; then
+        echo "could NOT find $library (32-bit)"
+        not_found+=("$library (32-bit)")
+    fi
+done
+
+if [[ "${#not_found[@]}" != "0" ]]; then
+    echo
+    echo "Could not find the following libraries:"
+    for v in "${not_found[@]}"; do
+        echo "- $v"
+    done
+    echo
+    echo "Please ensure you have installed the libraries mentioned in the readme."
+    exit 1
+else
+    echo
+    echo "No missing libraries found."
+    echo
+fi
 
 # initialize environment file
 cat <<EOF > "$basedir/common-env"
@@ -170,32 +203,6 @@ block-print "Running winetricks"
 "$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
 # install dxvk into prefix
 "$basedir/update-component.sh" dxvk "$dxvk_version_target"
-
-# ensure libXcomposite exists
-echo "looking for libXcomposite.so.1..."
-# debian doesn't have sbin in path by default
-ldconfig="$(PATH="$PATH:/bin:/sbin:/usr/bin:/usr/sbin" which ldconfig)"
-ldconfig_search="$("$ldconfig" -p | grep -F "libXcomposite.so.1")"
-if grep -F "libXcomposite.so.1 (libc6,x86-64)" <<< "$ldconfig_search"; then
-    echo "found libXcomposite.so.1 (64-bit)"
-    xcomp_found_64=1
-fi
-if grep -F "libXcomposite.so.1 (libc6)" <<< "$ldconfig_search"; then
-    echo "found libXcomposite.so.1 (32-bit)"
-    xcomp_found_32=1
-fi
-
-if [[ "$xcomp_found_32" != "1" ]] || [[ "$xcomp_found_64" != "1" ]]; then
-    block-print "WARNING: Cannot find libXcomposite.so.1"
-    if [[ "$xcomp_found_32" != "1" ]]; then
-        echo "Could not find a 32-bit version of libXcomposite.so.1"
-    fi
-    if [[ "$xcomp_found_64" != "1" ]]; then
-        echo "Could not find a 64-bit version of libXcomposite.so.1"
-    fi
-    echo "Both 32-bit and 64-bit versions of libXcomposite.so.1 are required" \
-        "to run Forged Alliance. Please check the readme for more information."
-fi
 
 # prompt user to log in
 echo

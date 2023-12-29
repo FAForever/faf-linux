@@ -7,17 +7,24 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libxcomposite1:amd64 libxcomposite1:i386 libfreetype6:amd64 libfreetype6:i386`
+     - `sudo apt install git wget jq cabextract patch libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
    - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract patch gstreamer1 gstreamer1-plugins-base gstreamer1-plugins-good libXcomposite.x86_64 libXcomposite.i686 freetype.x86_64 freetype.i686`
+     - `sudo dnf install git wget jq cabextract patch vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
-     - `sudo pacman -Syu git wget jq cabextract gstreamer gst-plugins-base gst-plugins-good libxcomposite lib32-libxcomposite freetype2 lib32-freetype2`
+     - `sudo pacman -Syu git wget jq cabextract patch vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
    - Other distributions:
      - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
      - Libraries needed:
-       - 64-bit version of `libgstreamer-1.0.so.0` and the "base" and "good" plugins set
-       - Both 32-bit and 64-bit versions of `libXcomposite.so.1`
-       - Both 32-bit and 64-bit versions of `libfreetype.so.6`
+       - Both 32-bit and 64-bit versions of:
+         - `libvulkan.so.1` (Vulkan ICD loader)
+         - `libpulse.so.0` (pulseaudio client library, required even if using PipeWire)
+         - `libfreetype.so.6` (FreeType font rendering library)
+         - `libXcomposite.so.1` (XComposite extension client library)
+         - `libXrandr.so.2` (XRandR extension client library)
+         - `libXfixes.so.3` (XFixes extension client library)
+         - `libXcursor.so.1` (XCursor extension client library)
+         - `libXi.so.6` (XInput extension client library)
+   - **Note:** 32-bit graphics drivers are required. If using Intel or AMD, install the 32-bit version of `mesa-vulkan-drivers`. On Fedora, this is `mesa-vulkan-drivers.i686`. On Debian, this is `mesa-vulkan-drivers:i386`. On Arch, this is `lib32-vulkan-DRIVERNAME`, where DRIVERNAME is `radeon` or `intel`. If using Nvidia, ensure you have the 32-bit driver package installed. These should already be installed, although they may be missing if you have installed Steam within Flatpak.
    - **Note:** Non-standard distributions such as NixOS may not directly be supported. Please consider using [Distrobox](https://github.com/89luca89/distrobox) or similar.
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
    - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
@@ -53,7 +60,7 @@ The script `./update-component.sh` is provided for convenient updating of certai
 
 ## Help, it doesn't work!
 
-Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af) in the `tech-support-forum` channel.
+Please check the section below for common troubleshooting steps. Failing that, please ping `@iczero` on the [FAF Discord guild](https://discord.com/invite/hgvj6Af) in the `tech-support-forum` channel.
 
 ## Weird issues and other nonsense
 
@@ -66,9 +73,8 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
   - on Fedora and Red Hat derivatives, install `libXcomposite` and `libXcomposite.i686`
   - on Arch and derivatives, install `libxcomposite` and `lib32-libxcomposite`
   - see <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/vulkan.c#L276>, <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/x11drv_main.c#L501>
-- FAF client crashes on launch with massively enormous error message, at the bottom it says something along the lines of "cannot use an unresolved DNS server address" chances are there's something in your /etc/resolv.conf that netty does not understand (for example, scoped IPv6 addresses). Install `systemd-resolved` if possible.
-- Install script errors in dxvk, game is rendered wrong: the dxvk install script currently has issues with spaces. Move `faf-linux` to a path without spaces, then try again. There is an open PR for this.
-- If you encounter strange display issues, consider using gamescope. In `common-env`, set `use_gamescope="1"` (or add that line if it does not already exist)
+- FAF client crashes on launch with massively enormous error message, at the bottom it says something along the lines of "cannot use an unresolved DNS server address": Chances are there's something in your `/etc/resolv.conf` that netty does not understand (for example, scoped IPv6 addresses). Install `systemd-resolved` if possible.
+- If you encounter strange display issues, consider using gamescope. In `common-env`, set `use_gamescope="1"` (or add that line if it does not already exist). Gamescope does not support the Nvidia driver.
 - Mod selector in client doesn't work: this has been fixed by a recent commit, however it only takes effect on new installations. To fix the problem without a reinstall, find `game_data_path` in `common-env`, then replace `Local Settings/Application Data` with `AppData/Local`.
 - Failed to create vulkan instance
   - May appear as:
@@ -87,7 +93,7 @@ Please ping `@iczero#8740` on the [FAF Discord guild](https://discord.com/invite
   - Your graphics driver lacks support for features required by the installed dxvk version. Please update your graphics drivers if possible.
   - If updating graphics drivers is not an option, manually downgrade dxvk (`./update-component.sh dxvk 1.10.3`) then add the line `dxvk_pin_version="1"` at the bottom of `common-env` to prevent the updater script from reverting to a newer version of dxvk.
 - `setup.sh` hangs on the `wineboot` step
-  - Please check to see if GStreamer is installed (see step 1 of setup instructions).
+  - Please check to see if you have all required libraries installed. Missing `libXrandr` will cause `wineboot` to hang on Proton, see <https://github.com/ValveSoftware/wine/issues/147>.
 
 ## Why should you use this
 
