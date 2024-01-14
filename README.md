@@ -12,6 +12,20 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - `sudo dnf install git wget jq cabextract patch vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
      - `sudo pacman -Syu git wget jq cabextract patch vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
+   - Gentoo Linux:
+      - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
+        ```
+        media-libs/vulkan-loader abi_x86_32
+        media-libs/libpulse abi_x86_32
+        media-libs/freetype abi_x86_32
+        x11-libs/libXcomposite abi_x86_32
+        x11-libs/libXrandr abi_x86_32
+        x11-libs/libXfixes abi_x86_32
+        x11-libs/libXcursor abi_x86_32
+        x11-libs/libXi abi_x86_32
+        ```
+      - `sudo emerge -avuND @world`
+      - `sudo emerge -a dev-vcs/git net-misc/wget app-misc/jq app-arch/cabextract media-libs/vulkan-loader media-libs/libpulse media-libs/freetype x11-libs/libXcomposite x11-libs/libXrandr x11-libs/libXfixes x11-libs/libXcursor x11-libs/libXi` (feel free to exclude any ebuilds that is already present in your system, no need to rebuild)
    - Other distributions:
      - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
      - Libraries needed:
