@@ -1,4 +1,4 @@
 # target versions to install
 dxvk_version_target="2.3"
-dfc_version_target="2024.1.1"
+dfc_version_target="2024.1.2"
 java_download_url_target="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12/OpenJDK21U-jdk_x64_linux_hotspot_21.0.1_12.tar.gz"
