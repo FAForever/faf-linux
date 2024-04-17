@@ -11,6 +11,12 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - Fedora and Red Hat-based:
      - `sudo dnf install git wget jq cabextract patch vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
+     - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
+         ```
+         [multilib]
+         Include = /etc/pacman.d/mirrorlist
+         ```
+         And then upgrade the system `sudo pacman -Syu`
      - `sudo pacman -Syu git wget jq cabextract patch vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
    - Gentoo Linux:
       - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
