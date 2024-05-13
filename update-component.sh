@@ -27,7 +27,7 @@ function update-dxvk() {
    fi
 
    block-print "Installing dxvk"
-   ./launchwrapper-env tools/dxvk-install.sh "$dxvk_extracted"
+   install_dxgi=1 ./launchwrapper-env tools/dxvk-install.sh "$dxvk_extracted"
    
    write-env "dxvk_path" "$dxvk_extracted"
 

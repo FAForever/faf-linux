@@ -200,7 +200,7 @@ fi
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
 block-print "Running winetricks"
-"$basedir/launchwrapper-env" "$basedir/winetricks" d3dx9 xact
+"$basedir/launchwrapper-env" "$basedir/winetricks" -q d3dx9 xact
 # install dxvk into prefix
 "$basedir/update-component.sh" dxvk "$dxvk_version_target"
 
