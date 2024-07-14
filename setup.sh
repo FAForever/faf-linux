@@ -116,12 +116,30 @@ ensure-bin jq --version
 ensure-bin cabextract --version
 ensure-bin patch --version
 
+block-print "Checking required libraries..."
+
+# try to find ldconfig if it does not exist
+ldconfig="ldconfig"
+if ! which ldconfig >/dev/null 2>&1; then
+    echo "could not find ldconfig"
+    for try_path in /usr/sbin/ldconfig /sbin/ldconfig; do
+        if [[ -x "$try_path" ]]; then
+            ldconfig="$try_path"
+            echo "ldconfig found at $try_path"
+            break
+        fi
+    done
+    if [[ "$ldconfig" = "ldconfig" ]]; then
+        # not found
+        echo "error: cannot find ldconfig, please ensure it is in "'$PATH'
+        exit 1
+    fi
+fi
+
 # required libraries
-ld_cache="$(ldconfig -p | cut -s -d $'\t' -f 2)"
+ld_cache="$("$ldconfig" -p | cut -s -d $'\t' -f 2)"
 required_libs=(libvulkan.so.1 libpulse.so.0 libfreetype.so.6 libXcomposite.so.1 libXrandr.so.2 libXfixes.so.3 libXcursor.so.1 libXi.so.6)
 not_found=()
-
-block-print "Checking required libraries..."
 
 for library in "${required_libs[@]}"; do
     if ! grep -F "$library (libc6,x86-64)" <<< "$ld_cache"; then
