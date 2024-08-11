@@ -7,9 +7,9 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract patch libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
+     - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
    - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract patch vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
+     - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
      - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
          ```
@@ -17,7 +17,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          Include = /etc/pacman.d/mirrorlist
          ```
          And then upgrade the system `sudo pacman -Syu`
-     - `sudo pacman -Syu git wget jq cabextract patch vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
+     - `sudo pacman -Syu git wget jq cabextract vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
    - Gentoo Linux:
       - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
         ```
@@ -40,7 +40,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - In the future, the scripts should seamlessly support a Nix environment
      - Please see <https://github.com/FAForever/faf-linux/issues/38> for more information
    - Other distributions:
-     - Commands needed: `git`, `wget`, `jq`, `cabextract`, `patch`
+     - Commands needed: `git`, `wget`, `jq`, `cabextract`
      - Libraries needed:
        - Both 32-bit and 64-bit versions of:
          - `libvulkan.so.1` (Vulkan ICD loader)

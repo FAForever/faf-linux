@@ -114,7 +114,6 @@ GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Allianc
 ensure-bin wget --version
 ensure-bin jq --version
 ensure-bin cabextract --version
-ensure-bin patch --version
 
 block-print "Checking required libraries..."
 
