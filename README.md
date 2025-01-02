@@ -125,6 +125,10 @@ Please check the section below for common troubleshooting steps. Failing that, p
   - If updating graphics drivers is not an option, manually downgrade dxvk (`./update-component.sh dxvk 1.10.3`) then add the line `dxvk_pin_version="1"` at the bottom of `common-env` to prevent the updater script from reverting to a newer version of dxvk.
 - `setup.sh` hangs on the `wineboot` step
   - Please check to see if you have all required libraries installed. Missing `libXrandr` will cause `wineboot` to hang on Proton, see <https://github.com/ValveSoftware/wine/issues/147>.
+- Some errors related to missing effects or missing maps
+  - May be caused by the client failing to update game files
+  - Try deleting `~/.faforever` (create backup first if necessary)
+  - Proceed from step 6 of the guide (start client, log in, close client, run `./set-client-paths.sh`)
 
 ## Why should you use this
 
