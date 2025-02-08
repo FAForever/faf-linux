@@ -21,6 +21,7 @@ Type=Application
 Icon=$basedir/faf-logo.png
 StartupWMClass=com.faforever.client.FafClientApplication
 Categories=Network;Game;
+Keywords=faf
 EOF
 chmod a+x "$dest_path"
 
