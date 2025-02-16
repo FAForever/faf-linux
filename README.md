@@ -133,5 +133,4 @@ Please check the section below for common troubleshooting steps. Failing that, p
 ## Why should you use this
 
 - Years of my own suffering have culminated in this massive pile of hacks
-- I will literally fix your issues with you over discord because I have no life
 - I suck at faf so I literally spend more time maintaining these scripts than playing faf
