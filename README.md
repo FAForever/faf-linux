@@ -91,14 +91,13 @@ Please check the section below for common troubleshooting steps. Failing that, p
 
 ## Weird issues and other nonsense
 
-- Black screen immediately after launching the game: if on an Nvidia GPU, you may need to explicitly specify fullscreen mode
-  - In the FAF client settings, section "Forged Alliance Forever", in "Command Line Format for Executable", add `/fullscreen <xres> <yres>` to the end, where `xres` and `yres` match your monitor's resolution
-  - Full example: `"/home/iczero/opt/faf-linux/launchwrapper" "%s" /fullscreen 1920 1080`
-  - This is a temporary workaround and will not fix `./run-offline` unless it is edited as well.
-- Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
-- Forged Alliance minimizes itself on Alt-Tab: run `./launchwrapper winecfg`, go to "Graphics", then check the "Emulate a virtual desktop" box. Note: This may cause everything to break. If it does, just run `winecfg` again and uncheck the box.
-  - Warning: as of 2022-10-24, this *does* cause everything to break. You have been warned.
+- Black screen immediately after launching the game: follow the steps below to enable the virtual desktop.
+  - This only seems to happen on Nvidia GPUs.
+- Forged Alliance minimizes itself on Alt-Tab: run `./launchwrapper winecfg`, go to "Graphics", then check the "Emulate a virtual desktop" box.
+  - ~~Warning: as of 2022-10-24, this *does* cause everything to break. You have been warned.~~ This is no longer the case.
+  - To run the game in fullscreen with the virtual desktop, set the virtual desktop resolution to your monitor's resolution.
   - Gamescope is an alternative, see below
+- Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
 - Game crashes with "Unable to create Direct3D", logs have wine error "Application requires child window rendering": libXcomposite is missing or failed to initialize, try installing `libxcomposite` or `libXcomposite` from package manager (the 32-bit version as well)
   - on Debian and derivatives (including Ubuntu), install `libxcomposite:amd64` and `libxcomposite:i386`
   - on Fedora and Red Hat derivatives, install `libXcomposite` and `libXcomposite.i686`
