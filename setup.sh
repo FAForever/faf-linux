@@ -20,6 +20,7 @@ STEAM_SEARCH_PATHS=(
     "$HOME/.local/share/Steam"
     "$HOME/.steam/steam"
     "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam"
+    "$HOME/snap/steam/common/.local/share/Steam/"
 )
 # note: ~/.steam/steam exists even if steam is installed to ~/.local/share/Steam
 # for what appears to be compatibility reasons.
