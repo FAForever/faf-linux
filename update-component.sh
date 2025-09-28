@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Update specific components
 # Currently supports updating dxvk and the faf client
 set -e

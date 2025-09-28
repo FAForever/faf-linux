@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Run command in environment, but without wine
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Start the FAF client
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Install desktop file to launch FAF from launcher
 
 ICON_URL="https://www.faforever.com/images/faf-logo.png"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Main setup script
 set -eE
 trap 'echo; echo "Script error! The installation has failed. Please report this to the author."' ERR

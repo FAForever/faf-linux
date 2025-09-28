@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Compare versions against target versions ("versions" file) and update if requested
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"

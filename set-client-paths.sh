@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to automatically set paths for the FAF client
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
