@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Wrapper for launching wine programs in the prefix
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 # usage: dxvk-install.sh <extracted>
 # intended to be wrapped with launchwrapper-env
