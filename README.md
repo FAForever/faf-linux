@@ -42,6 +42,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
            jq
            cabextract
            wget
+           git
            pkgsi686Linux.libpulseaudio
            pkgsi686Linux.freetype
            pkgsi686Linux.xorg.libXcursor
