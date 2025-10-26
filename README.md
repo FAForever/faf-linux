@@ -8,7 +8,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
      - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
-     - - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
+     - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
    - Fedora and Red Hat-based:
      - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
