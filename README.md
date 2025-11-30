@@ -8,6 +8,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
      - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
+     - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
    - Fedora and Red Hat-based:
      - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
@@ -114,6 +115,8 @@ Please check the section below for common troubleshooting steps. Failing that, p
   - ~~Warning: as of 2022-10-24, this *does* cause everything to break. You have been warned.~~ This is no longer the case.
   - To run the game in fullscreen with the virtual desktop, set the virtual desktop resolution to your monitor's resolution.
   - Gamescope is an alternative, see below
+- FPS is horrendously low / UI lags several seconds: `ForgedAlliance.exe` might not be using your GPU. Make sure you have 32-bit support for your GPU drivers installed. Refer to the Ubuntu section on how to do this for Nvidia drivers.
+  - Debug info for Nvidia drivers: : Run `watch -n 1 nvidia-smi` before starting the FAF client and a game. Once you start a game, `nvidia-smi` should list `...o/.faforever/bin/ForgedAlliance.exe` as one of the process names. If it does not, your FAF game is not using your GPU. You may not have 32-bit support installed for your GPU drivers. If you have 32-bit support, then `ls -lah {/etc,/usr/share}/vulkan/icd.d/` should list an `nvidia_icd.i686.json`.
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
 - Game crashes with "Unable to create Direct3D", logs have wine error "Application requires child window rendering": libXcomposite is missing or failed to initialize, try installing `libxcomposite` or `libXcomposite` from package manager (the 32-bit version as well)
   - on Debian and derivatives (including Ubuntu), install `libxcomposite:amd64` and `libxcomposite:i386`
