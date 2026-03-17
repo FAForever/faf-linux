@@ -7,10 +7,10 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386`
+     - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386 libudev1:i386`
      - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
    - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686`
+     - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686 systemd-libs.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
      - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
          ```
@@ -18,7 +18,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          Include = /etc/pacman.d/mirrorlist
          ```
          And then upgrade the system `sudo pacman -Syu`
-     - `sudo pacman -Syu git wget jq cabextract vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi`
+     - `sudo pacman -Syu git wget jq cabextract vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi lib32-systemd`
    - Gentoo Linux:
       - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
         ```
@@ -69,6 +69,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          - `libXfixes.so.3` (XFixes extension client library)
          - `libXcursor.so.1` (XCursor extension client library)
          - `libXi.so.6` (XInput extension client library)
+         - `libudev.so.1` (udev client library, required by `winepulse.drv`)
    - **Note:** 32-bit graphics drivers are required. If using Intel or AMD, install the 32-bit version of `mesa-vulkan-drivers`. On Fedora, this is `mesa-vulkan-drivers.i686`. On Debian, this is `mesa-vulkan-drivers:i386`. On Arch, this is `lib32-vulkan-DRIVERNAME`, where DRIVERNAME is `radeon` or `intel`. If using Nvidia, ensure you have the 32-bit driver package installed. These should already be installed, although they may be missing if you have installed Steam within Flatpak.
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
    - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
