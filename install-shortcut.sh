@@ -9,6 +9,12 @@ cd "$basedir"
 # fetch logo
 wget -O faf-logo.png "$ICON_URL"
 
+exec_prefix=""
+if [ -f /etc/os-release ] && grep -q "^ID=nixos" /etc/os-release; then
+    exec_prefix="steam-run "
+fi
+exec_cmd="${exec_prefix}\"$basedir/run\""
+
 # write desktop file
 echo "Writing desktop file..."
 dest_path="$HOME/.local/share/applications/com.faforever.faf-linux.desktop"
@@ -16,7 +22,7 @@ tee "$dest_path" <<EOF
 [Desktop Entry]
 Name=Forged Alliance Forever
 Comment=Lobby client for Supreme Commander: Forged Alliance (faf-linux)
-Exec=$basedir/run
+Exec=$exec_cmd
 Type=Application
 Icon=$basedir/faf-logo.png
 StartupWMClass=com.faforever.client.FafClientApplication
