@@ -162,9 +162,7 @@ write-env "game_path" "$GAME_PATH"
 write-env "game_data_path" "$wineprefix/drive_c/users/steamuser/$GAME_DATA_PATH"
 write-env "dxvk_hud" "compiler" # sane defaults, probably
 write-env "dxvk_config_file" "dxvk.conf"
-# unfortunately the steam overlay seems to crash the game sometimes
-# enable at your own risk
-write-env "enable_steam_integration" "0"
+write-env "enable_steam_integration" "1"
 write-env "ice_adapter_debug" "1"
 write-env "use_gamescope" "0"
 

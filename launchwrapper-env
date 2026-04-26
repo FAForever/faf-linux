@@ -21,7 +21,7 @@ export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
 
 # force large address aware
 export WINE_LARGE_ADDRESS_AWARE=1
-# esync and fsync cause issues
+# esync and fsync have caused issues in the past
 unset WINEESYNC WINEFSYNC
 # ntsync seems to work, although it does not seem to have a statistically significant effect
 export WINENTSYNC=1
