@@ -86,6 +86,22 @@ if [[ "$java_download_url_current" != "$java_download_url_target" ]]; then
     fi
 fi
 
+if [[ "$steamrt_download_url_target" != "$steamrt_download_url_current" ]]; then
+    echo "Steam Runtime from URL $steamrt_download_url_current is installed, but does not match target ($steamrt_download_url_target)"
+    has_updates="yes"
+    if [[ "$perform_update" = "yes" ]]; then
+        ./update-component.sh steamrt "$steamrt_download_url_target"
+    fi
+fi
+
+if [[ "$proton_download_url_target" != "$proton_download_url_current" ]]; then
+    echo "Proton from URL $proton_download_url_current is installed, but does not match target ($proton_download_url_target)"
+    has_updates="yes"
+    if [[ "$perform_update" = "yes" ]]; then
+        ./update-component.sh steamrt "$proton_download_url_target"
+    fi
+fi
+
 if [[ "$perform_update" != "yes" ]] && [[ "$has_updates" = "yes" ]]; then
     echo ""
     echo "Updates were found but were not installed."

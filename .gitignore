@@ -11,3 +11,5 @@
 *.log
 /setup-dxvk.sh.orig
 /faf-logo.png
+/steamrt
+GE-Proton*/

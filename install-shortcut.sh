@@ -6,8 +6,10 @@ ICON_URL="https://www.faforever.com/images/faf-logo.png"
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 cd "$basedir"
 
+source ./common.sh
+
 # fetch logo
-wget -O faf-logo.png "$ICON_URL"
+curlp -o faf-logo.png "$ICON_URL"
 
 # write desktop file
 echo "Writing desktop file..."

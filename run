@@ -18,4 +18,5 @@ export INSTALL4J_JAVA_HOME="$basedir/$java_path"
 
 
 cd "$dfc_path"
+# do NOT run in container because container is missing gtk!
 exec ./faf-client
