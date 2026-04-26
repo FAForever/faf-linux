@@ -4,7 +4,7 @@ set -e
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [[ "$faf_use_wow64" = "1" ]]; then
+if [[ "$use_wine_wow64" = "1" ]]; then
   export PATH="$proton_path/files/bin-wow64/:$PATH"
 else
   export PATH="$proton_path/files/bin/:$PATH"

@@ -44,7 +44,7 @@ if [[ "$BYPASS_STEAM" != "1" ]]; then
 
     # parse libraryfolders.vdf
     libraryfolders=()
-    while IFS='' read -u 10 f; do
+    while IFS='' read -r -u 10 f; do
         if [[ -d "$f" ]]; then
             echo "found steam library folder: $f"
             libraryfolders+=("$f")
@@ -165,6 +165,7 @@ write-env "dxvk_config_file" "dxvk.conf"
 write-env "enable_steam_integration" "1"
 write-env "ice_adapter_debug" "1"
 write-env "use_gamescope" "0"
+write-env "use_wine_wow64" "1"
 
 dxvk_cache_dir="dxvk-cache"
 mkdir -p "$dxvk_cache_dir"

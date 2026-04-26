@@ -74,7 +74,7 @@ function update-java() {
     curlp -o "java.tar.gz" "$java_url"
     block-print "Extracting java"
     local java_path="$(tar -tf "java.tar.gz" | head -n 1 | cut -d '/' -f 1)"
-    if [[ -d "$java_path_orig" ]]; then
+    if [[ -d "$java_path" ]]; then
         echo "note: requested java version already exists, overwriting"
     fi
     tar -xvf "java.tar.gz"
@@ -95,6 +95,10 @@ function update-steamrt() {
     if [[ -e "steamrt.new" ]]; then
         echo "removing partially extracted files"
         rm -rf "steamrt.new"
+    fi
+    if [[ -e "steamrt.old" ]]; then
+        echo "removing old directory"
+        rm -rf "steamrt.old"
     fi
     mkdir -p "steamrt.new"
     tar -C "steamrt.new" --strip-components=1 -xvf "steamrt.tar.xz"

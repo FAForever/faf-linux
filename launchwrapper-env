@@ -55,6 +55,7 @@ if [[ ! -z "$steam_path" ]]; then
 fi
 
 export PRESSURE_VESSEL_FILESYSTEMS_RW="$(IFS=':'; printf '%s' "${bind_paths[*]}")"
+export use_wine_wow64
 
 popd
 exec "$basedir/steamrt/run" "${pv_opts[@]}" -- "$basedir/launchwrapper-srt" "$@"

@@ -3,14 +3,14 @@
 
 function block-print() {
     echo "============================================================"
-    printf "$@"
+    printf '%s' "$@"
     echo
     echo "============================================================"
 }
 
 function ensure-bin() {
     if ! "$@" > /dev/null; then
-        echo "Command '$@' failed. Please install '$1' from your distribution's package manager." >&2
+        echo "Command '$*' failed. Please install '$1' from your distribution's package manager." >&2
         exit 1
     fi
 }
@@ -50,9 +50,9 @@ function curlp() {
 
 # silence pushd and popd
 function pushd() {
-    command pushd "$@" >/dev/null
+    command pushd "$@" >/dev/null || return
 }
 
 function popd() {
-    command popd "$@" >/dev/null
+    command popd "$@" >/dev/null || return
 }
