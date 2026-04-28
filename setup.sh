@@ -12,6 +12,12 @@ cd "$basedir"
 
 source ./common.sh
 
+# temporary placeholder error
+if [[ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]] && [[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns)" != "0" ]]; then
+    echo "cannot proceed: user namespaces not allowed"
+    exit 1
+fi
+
 # if you are using nonstandard paths, please add it here
 # if you've installed steam from an official or distribution package but it was
 # not found, please file an issue
@@ -93,10 +99,11 @@ ensure-path "$GAME_PATH" "error: SC:FA not found!"
 
 GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
 
-# required programs: curl jq cabextract
+# required programs: curl jq cabextract bwrap
 ensure-bin curl --version
 ensure-bin jq --version
 ensure-bin cabextract --version
+ensure-bin bwrap --version
 
 block-print "Checking required libraries..."
 

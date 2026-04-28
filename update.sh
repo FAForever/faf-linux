@@ -10,6 +10,12 @@ if [[ "$SCRIPT_DID_UPDATE" = "1" ]]; then
     echo "Scripts updated."
 fi
 
+# temporary placeholder error
+if [[ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]] && [[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns)" != "0" ]]; then
+    echo "cannot proceed: user namespaces not allowed"
+    exit 1
+fi
+
 do_notify="no"
 update_ratelimit_file="common-env" # TODO: maybe use a different file?
 if [[ "$1" = "autoupdate-notify" ]]; then
