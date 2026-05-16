@@ -56,7 +56,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - **Note:** 32-bit graphics drivers are required. If using Intel or AMD, install the 32-bit version of `mesa-vulkan-drivers`. On Fedora, this is `mesa-vulkan-drivers.i686`. On Debian, this is `mesa-vulkan-drivers:i386`. On Arch, this is `lib32-vulkan-DRIVERNAME`, where DRIVERNAME is `radeon` or `intel`. If using Nvidia, ensure you have the 32-bit driver package installed. These should already be installed, although they may be missing if you have installed Steam within Flatpak.
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
    - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
-   - TODO: it is possible to use GOG as well, document the relevant setup variables here...
+   - If you are using the game from GOG, skip this step
 1. Clone this repository
    - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
    - This will create a new folder named faf-linux, where the client will be installed.
@@ -64,6 +64,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
    - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
    - Note: if you bought the game from GOG and installed it with Lutris, you need to run the setup like this: `BYPASS_STEAM=1 GAME_PATH="/path/to/Lutris/gog/supreme-commander-forged-alliance/drive_c/GOG Games/Supreme Commander Forged Alliance" ./setup.sh`
+   - Note: if you are using Ubuntu, you may see the error message `FATAL: bwrap missing or nonfunctional`. Ubuntu disallows applications to use sandboxing/containerization features (user namespaces) unless explicitly whitelisted. You can disable this by setting `kernel.apparmor_restrict_unprivileged_userns = 0` in sysctl (for example, in `/etc/sysctl.d/99-allow-userns.conf`). Additionally, consider not using Ubuntu.
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 1. To launch FAF, run `./run`
