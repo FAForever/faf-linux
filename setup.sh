@@ -97,7 +97,7 @@ ensure-path "$GAME_PATH" "error: SC:FA not found!"
 
 GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
 
-# required programs: curl jq cabextract (bwrap checked above)
+# required programs: curl jq (bwrap checked above)
 ensure-bin curl --version
 ensure-bin jq --version
 
@@ -191,7 +191,7 @@ block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
 
 block-print "Installing D3DX9/XACT dlls"
-[[ -f "$basedir/directx" ]] && rm -rv "$basedir/directx"
+[[ -e "$basedir/directx" ]] && rm -rv "$basedir/directx"
 mkdir -p "$basedir/directx"
 directx_tmp_path="$(WINEDEBUG=-all "$basedir/launchwrapper-env" wine winepath -w "$basedir/directx")"
 echo "directx temporary path: $directx_tmp_path"
