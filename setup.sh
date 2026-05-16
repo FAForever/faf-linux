@@ -3,8 +3,6 @@
 set -eE
 trap 'echo; echo "Script error! The installation has failed. Please report this to the author."' ERR
 
-# winetricks has its own self-updater
-WINETRICKS_URL="https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
 STEAM_GAME_ID="9420"
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -13,8 +11,8 @@ cd "$basedir"
 source ./common.sh
 
 # temporary placeholder error
-if [[ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]] && [[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns)" != "0" ]]; then
-    echo "cannot proceed: user namespaces not allowed"
+if ! bwrap --ro-bind / / true; then
+    echo "FATAL: bwrap missing or nonfunctional"
     exit 1
 fi
 
@@ -99,11 +97,9 @@ ensure-path "$GAME_PATH" "error: SC:FA not found!"
 
 GAME_DATA_PATH="AppData/Local/Gas Powered Games/Supreme Commander Forged Alliance"
 
-# required programs: curl jq cabextract bwrap
+# required programs: curl jq cabextract (bwrap checked above)
 ensure-bin curl --version
 ensure-bin jq --version
-ensure-bin cabextract --version
-ensure-bin bwrap --version
 
 block-print "Checking required libraries..."
 
@@ -178,10 +174,6 @@ dxvk_cache_dir="dxvk-cache"
 mkdir -p "$dxvk_cache_dir"
 write-env "dxvk_cache_dir" "$dxvk_cache_dir"
 
-block-print "Downloading winetricks"
-curlp -o winetricks "$WINETRICKS_URL"
-chmod a+x winetricks
-
 # load target versions
 . ./versions
 
@@ -190,10 +182,24 @@ chmod a+x winetricks
 "$basedir/update-component.sh" steamrt "$steamrt_download_url_target"
 "$basedir/update-component.sh" proton "$proton_download_url_target"
 
+DIRECTX_REDIST="https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe"
+directx_redist_exe="directx_redist.exe"
+block-print "Downloading D3DX9/XACT installer"
+curlp -o "$directx_redist_exe" "$DIRECTX_REDIST"
+
 block-print "Wineboot"
 "$basedir/launchwrapper-env" wine wineboot -u
-block-print "Running winetricks"
-path_append_host_usr=1 "$basedir/launchwrapper-env" "$basedir/winetricks" -q d3dx9 xact
+
+block-print "Installing D3DX9/XACT dlls"
+[[ -f "$basedir/directx" ]] && rm -rv "$basedir/directx"
+mkdir -p "$basedir/directx"
+directx_tmp_path="$(WINEDEBUG=-all "$basedir/launchwrapper-env" wine winepath -w "$basedir/directx")"
+echo "directx temporary path: $directx_tmp_path"
+"$basedir/launchwrapper-env" wine "$directx_redist_exe" "/T:$directx_tmp_path" /Q /C
+echo "dxsetup.exe running..."
+"$basedir/launchwrapper-env" wine "$basedir/directx/DXSETUP.exe" /silent
+echo "done"
+
 # install dxvk into prefix
 "$basedir/update-component.sh" dxvk "$dxvk_version_target"
 

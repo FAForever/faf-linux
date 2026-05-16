@@ -11,10 +11,10 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 1. Install prerequisites from your distribution's package manager:
    - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git curl jq cabextract bubblewrap libvulkan1:amd64 libvulkan1:i386`
+     - `sudo apt install git curl jq bubblewrap libvulkan1:amd64 libvulkan1:i386`
      - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
    - Fedora and Red Hat-based:
-     - `sudo dnf install git curl jq cabextract bubblewrap vulkan-loader.x86_64 vulkan-loader.i686`
+     - `sudo dnf install git curl jq bubblewrap vulkan-loader.x86_64 vulkan-loader.i686`
    - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
      - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
          ```
@@ -22,14 +22,14 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          Include = /etc/pacman.d/mirrorlist
          ```
          And then upgrade the system `sudo pacman -Syu`
-     - `sudo pacman -Syu git curl jq cabextract bubblewrap vulkan-icd-loader lib32-vulkan-icd-loader`
+     - `sudo pacman -Syu git curl jq bubblewrap vulkan-icd-loader lib32-vulkan-icd-loader`
    - Gentoo Linux:
       - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
         ```
         media-libs/vulkan-loader abi_x86_32
         ```
       - `sudo emerge -avuND @world`
-      - `sudo emerge -a dev-vcs/git net-misc/curl app-misc/jq app-arch/cabextract sys-apps/bubblewrap media-libs/vulkan-loader` (feel free to exclude any ebuilds that is already present in your system, no need to rebuild)
+      - `sudo emerge -a dev-vcs/git net-misc/curl app-misc/jq sys-apps/bubblewrap media-libs/vulkan-loader` (feel free to exclude any ebuilds that is already present in your system, no need to rebuild)
    - NixOS and other Nix-based environments:
      - Ensure graphics drivers are installed
      - In your Nix configuration, add the following, then rebuild:
@@ -38,7 +38,6 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          enable = true;
          package = with pkgs; steam.override { extraPkgs = pkgs: [
            jq
-           cabextract
            curl
            git
          ];};
@@ -50,7 +49,7 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - In the future, the scripts should seamlessly support a Nix environment
      - Please see <https://github.com/FAForever/faf-linux/issues/38> for more information
    - Other distributions:
-     - Commands needed: `git`, `curl`, `jq`, `cabextract`, `bwrap`
+     - Commands needed: `git`, `curl`, `jq`, `bwrap`
      - Libraries needed:
        - Both 32-bit and 64-bit versions of:
          - `libvulkan.so.1` (Vulkan ICD loader)

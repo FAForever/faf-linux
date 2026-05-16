@@ -37,7 +37,7 @@ export proton_path="$(readlink -f "$proton_path")"
 export WINETRICKS_DOWNLOADER="curl"
 
 pv_opts=()
-if [[ -t 0 ]]; then
+if [[ -t 0 ]] && [[ -t 1 ]]; then
     # enable tty
     pv_opts+=(--tty)
 fi

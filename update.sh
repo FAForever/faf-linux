@@ -11,8 +11,8 @@ if [[ "$SCRIPT_DID_UPDATE" = "1" ]]; then
 fi
 
 # temporary placeholder error
-if [[ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]] && [[ "$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns)" != "0" ]]; then
-    echo "cannot proceed: user namespaces not allowed"
+if ! bwrap --ro-bind / / true; then
+    echo "FATAL: bwrap missing or nonfunctional"
     exit 1
 fi
 

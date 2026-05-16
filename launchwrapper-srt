@@ -10,8 +10,4 @@ else
   export PATH="$proton_path/files/bin/:$PATH"
 fi
 
-if [[ "$path_append_host_usr" = 1 ]]; then
-    export PATH="$PATH:/run/host/usr/bin:/run/host/usr/sbin"
-fi
-
 exec "$@"
