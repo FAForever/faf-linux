@@ -1,32 +1,25 @@
 #!/usr/bin/env bash
+set -e
 # Wrapper for launching wine programs in the prefix
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-cd "$basedir"
 
-source ./common.sh
+source "$basedir/common.sh"
 load-env
 
 # only enable steam integration if steam is actually running
-WRAPPER=""
 if [[ "$enable_steam_integration" == "1" ]] && pgrep steam >/dev/null; then
-    export LD_PRELOAD="$steam_path/ubuntu12_32/gameoverlayrenderer.so"
-    export LD_LIBRARY_PATH="$proton_path/dist/lib"
+    export LD_PRELOAD="$(readlink -f "$steam_path/ubuntu12_32/gameoverlayrenderer.so")"
     export ENABLE_VK_LAYER_VALVE_steam_overlay_1=1
-    # this does not seem to exist anymore?
-    #WRAPPER="c:/windows/syswow64/steam.exe"
 fi
 
+# disable for now
+: <<'EOF'
 GAMESCOPE=""
 if [[ "$use_gamescope" == "1" ]]; then
     # must set gamescope to be fullscreen or game will not start
     GAMESCOPE="gamescope -f --"
 fi
+EOF
 
-# this doesn't work lmao
-# if [[ ! -z "$FAF_LINUX_LAUNCH_DEBUGGER" ]]; then
-#     $FAF_LINUX_DEBUG_TERM gdb -iex "set sysroot $wineprefix/dosdevices" -iex "target extended-remote localhost:31900" &
-#     exec "$basedir/launchwrapper-env" $GAMESCOPE -- "$wine_path/bin/wine" $FAF_LINUX_LAUNCH_DEBUGGER localhost:31900 "$@"
-# fi
-
-exec "$basedir/launchwrapper-env" $GAMESCOPE "$wine_path/bin/wine" $WRAPPER "$@"
+exec "$basedir/launchwrapper-env" wine "$@"

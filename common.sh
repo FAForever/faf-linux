@@ -3,14 +3,14 @@
 
 function block-print() {
     echo "============================================================"
-    printf "$@"
+    printf '%s' "$@"
     echo
     echo "============================================================"
 }
 
 function ensure-bin() {
     if ! "$@" > /dev/null; then
-        echo "Command '$@' failed. Please install '$1' from your distribution's package manager." >&2
+        echo "Command '$*' failed. Please install '$1' from your distribution's package manager." >&2
         exit 1
     fi
 }
@@ -35,10 +35,24 @@ function warn-prompt() {
 }
 
 function load-env() {
-    source ./versions
-    if ! source ./common-env; then
+    source "$basedir/versions"
+    if ! source "$basedir/common-env"; then
         echo "Environment file does not exist!" >&2
         echo "Did you run setup.sh?" >&2
         exit 1
     fi
+}
+
+function curlp() {
+    # curl with progress bar
+    curl --progress-bar -L "$@"
+}
+
+# silence pushd and popd
+function pushd() {
+    command pushd "$@" >/dev/null || return
+}
+
+function popd() {
+    command popd "$@" >/dev/null || return
 }

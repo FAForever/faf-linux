@@ -1,4 +1,6 @@
 # target versions to install
 dxvk_version_target="2.7.1"
-dfc_version_target="2026.1.0"
-java_download_url_target="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_x64_linux_hotspot_25.0.1_8.tar.gz"
+dfc_version_target="2026.4.1"
+java_download_url_target="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_9.tar.gz"
+steamrt_download_url_target="https://repo.steampowered.com/steamrt4/images/4.0.20260415.225012/SteamLinuxRuntime_4.tar.xz"
+proton_download_url_target="https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-34/GE-Proton10-34.tar.gz"

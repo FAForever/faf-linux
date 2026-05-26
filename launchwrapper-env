@@ -1,23 +1,61 @@
 #!/usr/bin/env bash
+set -e
 # Run command in environment, but without wine
 
 basedir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-cd "$basedir"
 
 # variables
-source ./common-env
-export WINEPREFIX="$wineprefix"
+source "$basedir/common.sh"
+load-env
+pushd "$basedir"
+
+export WINEPREFIX="$(readlink -f "$wineprefix")"
 export SteamGameId="$steam_game_id"
 export SteamAppId="$steam_game_id"
+
 export DXVK_HUD="$dxvk_hud"
-export DXVK_CONFIG_FILE="$dxvk_config_file"
-export DXVK_STATE_CACHE_PATH="$dxvk_cache_dir"
+export DXVK_CONFIG_FILE="$(readlink -f "$dxvk_config_file")"
+export DXVK_STATE_CACHE_PATH="$(readlink -f "$dxvk_cache_dir")"
 
 export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
-export PATH="$wine_path/bin/:$PATH"
+
+# force large address aware
 export WINE_LARGE_ADDRESS_AWARE=1
-
-# esync and fsync cause issues
+# esync and fsync have caused issues in the past
 unset WINEESYNC WINEFSYNC
+# ntsync seems to work, although it does not seem to have a statistically significant effect
+export WINENTSYNC=1
 
-exec "$@"
+# FA uses neither mshtml nor dotnet (mscoree). disable both and prevent wineboot from asking the user about them.
+# additionally prevent winemenubuilder from accidentally creating shortcuts.
+export WINEDLLOVERRIDES="mscoree=d,mshtml=d,winemenubuilder=d"
+
+export proton_path="$(readlink -f "$proton_path")"
+
+# curl is available in the steamrt container. use it even when aria2c may be
+# available from the host to avoid dependency issues
+export WINETRICKS_DOWNLOADER="curl"
+
+pv_opts=()
+if [[ -t 0 ]] && [[ -t 1 ]]; then
+    # enable tty
+    pv_opts+=(--tty)
+fi
+
+bind_paths=(
+    # need ourselves in the container
+    "$(readlink -f "$basedir")"
+    # need the game in the container
+    "$(readlink -f "$game_path")"
+)
+
+# probably want steam in the container as well
+if [[ ! -z "$steam_path" ]]; then
+    bind_paths+=("$(readlink -f "$steam_path")")
+fi
+
+export PRESSURE_VESSEL_FILESYSTEMS_RW="$(IFS=':'; printf '%s' "${bind_paths[*]}")"
+export use_wine_wow64
+
+popd
+exec "$basedir/steamrt/run" "${pv_opts[@]}" -- "$basedir/launchwrapper-srt" "$@"

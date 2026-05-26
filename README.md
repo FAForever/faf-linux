@@ -1,38 +1,37 @@
 # FAF on Linux
 
-A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on Ubuntu, Fedora, and Arch, should work on other distributions as well.
+A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on some places.
+
+## Important notice
+
+faf-linux has been updated to use the Steam Runtime. This will simplify installation and should eliminate a large class of strange bugs caused by distro differences.
+
+Some recent versions of Ubuntu break sandboxing by default. If you see the error message `FATAL: bwrap missing or nonfunctional`, you will need to run `echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/99-allow-userns.conf` and then reboot.
 
 ## Setup instructions
 
 1. Install prerequisites from your distribution's package manager:
-   - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
+   - Debian and derivatives (including Ubuntu, Pop!\_OS, and Linux Mint):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
-     - `sudo apt install git wget jq cabextract libvulkan1:amd64 libvulkan1:i386 libpulse0:amd64 libpulse0:i386 libfreetype6:amd64 libfreetype6:i386 libxcomposite1:amd64 libxcomposite1:i386 libxrandr2:amd64 libxrandr2:i386 libxfixes3:amd64 libxfixes3:i386 libxcursor1:amd64 libxcursor1:i386 libxi6:amd64 libxi6:i386 libudev1:i386`
+     - `sudo apt install git curl jq bubblewrap libvulkan1:amd64 libvulkan1:i386`
      - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
-   - Fedora and Red Hat-based:
-     - `sudo dnf install git wget jq cabextract vulkan-loader.x86_64 vulkan-loader.i686 pulseaudio-libs.x86_64 pulseaudio-libs.i686 freetype.x86_64 freetype.i686 libXcomposite.x86_64 libXcomposite.i686 libXrandr.x86_64 libXrandr.i686 libXfixes.x86_64 libXfixes.i686 libXcursor.x86_64 libXcursor.i686 libXi.x86_64 libXi.i686 systemd-libs.i686`
-   - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
+   - Fedora and Red Hat-based (including Bazzite and Nobara):
+     - `sudo dnf install git curl jq bubblewrap vulkan-loader.x86_64 vulkan-loader.i686`
+   - Arch Linux and derivatives (including Manjaro, EndeavourOS, and CachyOS):
      - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
          ```
          [multilib]
          Include = /etc/pacman.d/mirrorlist
          ```
          And then upgrade the system `sudo pacman -Syu`
-     - `sudo pacman -Syu git wget jq cabextract vulkan-icd-loader lib32-vulkan-icd-loader libpulse lib32-libpulse freetype2 lib32-freetype2 libxcomposite lib32-libxcomposite libxrandr lib32-libxrandr libxfixes lib32-libxfixes libxcursor lib32-libxcursor libxi lib32-libxi lib32-systemd`
+     - `sudo pacman -Syu git curl jq bubblewrap vulkan-icd-loader lib32-vulkan-icd-loader`
    - Gentoo Linux:
       - Add following to `/etc/portage/package.use/faforever` (or whatever file you want in that folder):
         ```
         media-libs/vulkan-loader abi_x86_32
-        media-libs/libpulse abi_x86_32
-        media-libs/freetype abi_x86_32
-        x11-libs/libXcomposite abi_x86_32
-        x11-libs/libXrandr abi_x86_32
-        x11-libs/libXfixes abi_x86_32
-        x11-libs/libXcursor abi_x86_32
-        x11-libs/libXi abi_x86_32
         ```
       - `sudo emerge -avuND @world`
-      - `sudo emerge -a dev-vcs/git net-misc/wget app-misc/jq app-arch/cabextract media-libs/vulkan-loader media-libs/libpulse media-libs/freetype x11-libs/libXcomposite x11-libs/libXrandr x11-libs/libXfixes x11-libs/libXcursor x11-libs/libXi` (feel free to exclude any ebuilds that is already present in your system, no need to rebuild)
+      - `sudo emerge -a dev-vcs/git net-misc/curl app-misc/jq sys-apps/bubblewrap media-libs/vulkan-loader` (feel free to exclude any ebuilds that is already present in your system, no need to rebuild)
    - NixOS and other Nix-based environments:
      - Ensure graphics drivers are installed
      - In your Nix configuration, add the following, then rebuild:
@@ -41,14 +40,8 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
          enable = true;
          package = with pkgs; steam.override { extraPkgs = pkgs: [
            jq
-           cabextract
-           wget
+           curl
            git
-           pkgsi686Linux.libpulseaudio
-           pkgsi686Linux.freetype
-           pkgsi686Linux.xorg.libXcursor
-           pkgsi686Linux.xorg.libXcomposite
-           pkgsi686Linux.xorg.libXi
          ];};
        };
        ```
@@ -58,31 +51,22 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
      - In the future, the scripts should seamlessly support a Nix environment
      - Please see <https://github.com/FAForever/faf-linux/issues/38> for more information
    - Other distributions:
-     - Commands needed: `git`, `wget`, `jq`, `cabextract`
+     - Commands needed: `git`, `curl`, `jq`, `bwrap`
      - Libraries needed:
        - Both 32-bit and 64-bit versions of:
          - `libvulkan.so.1` (Vulkan ICD loader)
-         - `libpulse.so.0` (pulseaudio client library, required even if using PipeWire)
-         - `libfreetype.so.6` (FreeType font rendering library)
-         - `libXcomposite.so.1` (XComposite extension client library)
-         - `libXrandr.so.2` (XRandR extension client library)
-         - `libXfixes.so.3` (XFixes extension client library)
-         - `libXcursor.so.1` (XCursor extension client library)
-         - `libXi.so.6` (XInput extension client library)
-         - `libudev.so.1` (udev client library, required by `winepulse.drv`)
    - **Note:** 32-bit graphics drivers are required. If using Intel or AMD, install the 32-bit version of `mesa-vulkan-drivers`. On Fedora, this is `mesa-vulkan-drivers.i686`. On Debian, this is `mesa-vulkan-drivers:i386`. On Arch, this is `lib32-vulkan-DRIVERNAME`, where DRIVERNAME is `radeon` or `intel`. If using Nvidia, ensure you have the 32-bit driver package installed. These should already be installed, although they may be missing if you have installed Steam within Flatpak.
 1. Install Steam, then install Supreme Commander: Forged Alliance from Steam
-   - In Properties -> Compatibility, check "Force the use of a specific Steam Play compatibility tool", and select "Proton Experimental"
-   - Start the game from Steam. This step is needed to download and unpack Proton Experimental.
-   - **Note:** the game may lag horribly or not even start. This is fine, as the rest of this guide should still work.
    - If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
+   - If you are using the game from GOG, skip this step
 1. Clone this repository
    - Open a terminal where the installation should be located, then run `git clone https://github.com/FAForever/faf-linux`
    - This will create a new folder named faf-linux, where the client will be installed.
    - Do *not* put `faf-linux` within the game directory or any other Steam-managed directories. It will not function properly.
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
-   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
-   - Note: if you bought the game from GOG and installed it with Lutris, you need to run the setup like this: `BYPASS_STEAM=1 GAME_PATH="/path/to/Lutris/gog/supreme-commander-forged-alliance/drive_c/GOG Games/Supreme Commander Forged Alliance" PROTON_PATH="/path/to/Steam/steamapps/common/Proton - Experimental" ./setup.sh`
+   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
+   - Note: if you bought the game from GOG and installed it with Lutris, you need to run the setup like this: `BYPASS_STEAM=1 GAME_PATH="/path/to/Lutris/gog/supreme-commander-forged-alliance/drive_c/GOG Games/Supreme Commander Forged Alliance" ./setup.sh`
+   - Note: if you are using Ubuntu, you may see the error message `FATAL: bwrap missing or nonfunctional`. Ubuntu disallows applications to use sandboxing/containerization features (user namespaces) unless explicitly whitelisted. To fix this, run `echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/99-allow-userns.conf` and then reboot. Additionally, consider not using Ubuntu.
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 1. To launch FAF, run `./run`
@@ -90,8 +74,8 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
 
 ## How to update after installation
 
-1. Run `./update.sh perform` to update necessary components automatically
-1. The update script will not automatically remove old versions currently. If new versions work, old versions are safe to delete.
+1. Run `./update.sh perform` to update necessary components automatically.
+1. You may safely delete old versions after update completes. The script will not currently automatically remove old versions.
 
 ## Manually updating individual components
 
@@ -100,8 +84,8 @@ The script `./update-component.sh` is provided for convenient updating of certai
 - To update dxvk, run `./update-component.sh dxvk <new version>`. Versions look like "1.9.3".
 - To update the FAF client, run `./update-component.sh faf-client <new version>`. Versions look like "2021.10.0".
 - To update java, run `./update-component.sh java "<java url>"`.
-  - The FAF client (at time of writing) wants Java 17.
-  - Java URL is currently <https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.5_8.tar.gz>
+  - The FAF client (at time of writing) wants Java 25.
+  - Java URL is currently <https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_9.tar.gz>
   - These may change in the future. Check the `versions` file for current working URLs.
 
 ## Help, it doesn't work!
@@ -120,10 +104,7 @@ Please check the section below for common troubleshooting steps. Failing that, p
   - Debug info for Nvidia drivers: : Run `watch -n 1 nvidia-smi` before starting the FAF client and a game. Once you start a game, `nvidia-smi` should list `...o/.faforever/bin/ForgedAlliance.exe` as one of the process names. If it does not, your FAF game is not using your GPU. You may not have 32-bit support installed for your GPU drivers. If you have 32-bit support, then `ls -lah {/etc,/usr/share}/vulkan/icd.d/` should list an `nvidia_icd.i686.json`.
 - Mouse cursor stuck, can't click things in lobby: quit out of the game and the FAF client, run `./run-offline`, click past the intro videos until you get to the main menu, exit the game, then try starting a game from FAF again
 - Game crashes with "Unable to create Direct3D", logs have wine error "Application requires child window rendering": libXcomposite is missing or failed to initialize, try installing `libxcomposite` or `libXcomposite` from package manager (the 32-bit version as well)
-  - on Debian and derivatives (including Ubuntu), install `libxcomposite:amd64` and `libxcomposite:i386`
-  - on Fedora and Red Hat derivatives, install `libXcomposite` and `libXcomposite.i686`
-  - on Arch and derivatives, install `libxcomposite` and `lib32-libxcomposite`
-  - see <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/vulkan.c#L276>, <https://github.com/ValveSoftware/wine/blob/46a904624f1c3f62df806e9f0bff2bfda6bdf727/dlls/winex11.drv/x11drv_main.c#L501>
+  - This should no longer happen. Please visit the support channel.
 - FAF client crashes on launch with massively enormous error message, at the bottom it says something along the lines of "cannot use an unresolved DNS server address": Chances are there's something in your `/etc/resolv.conf` that netty does not understand (for example, scoped IPv6 addresses). Install `systemd-resolved` if possible.
 - If you encounter strange display issues, consider using gamescope. In `common-env`, set `use_gamescope="1"` (or add that line if it does not already exist). Gamescope does not support the Nvidia driver.
 - Mod selector in client doesn't work: this has been fixed by a recent commit, however it only takes effect on new installations. To fix the problem without a reinstall, find `game_data_path` in `common-env`, then replace `Local Settings/Application Data` with `AppData/Local`.
@@ -144,13 +125,15 @@ Please check the section below for common troubleshooting steps. Failing that, p
   - Your graphics driver lacks support for features required by the installed dxvk version. Please update your graphics drivers if possible.
   - If updating graphics drivers is not an option, manually downgrade dxvk (`./update-component.sh dxvk 1.10.3`) then add the line `dxvk_pin_version="1"` at the bottom of `common-env` to prevent the updater script from reverting to a newer version of dxvk.
 - `setup.sh` hangs on the `wineboot` step
-  - Please check to see if you have all required libraries installed. Missing `libXrandr` will cause `wineboot` to hang on Proton, see <https://github.com/ValveSoftware/wine/issues/147>.
+  - This should no longer happen. Please visit the support channel.
 - Some errors related to missing effects or missing maps
   - May be caused by the client failing to update game files
   - Try deleting `~/.faforever` (create backup first if necessary)
   - Proceed from step 6 of the guide (start client, log in, close client, run `./set-client-paths.sh`)
+- If you want to play Forged Alliance on Steam, set `PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 %command%` in launch options. If you only wish to play on FAF, this step is not necessary.
 
 ## Why should you use this
 
 - Years of my own suffering have culminated in this massive pile of hacks
 - I suck at faf so I literally spend more time maintaining these scripts than playing faf
+- I stole a bunch of open source stuff from Steam that makes the game run better (thanks Valve)

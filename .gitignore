@@ -6,8 +6,10 @@
 *.zip
 /jdk-*
 /prefix
-/winetricks
-/winetricks.bak
 *.log
 /setup-dxvk.sh.orig
 /faf-logo.png
+/steamrt
+GE-Proton*/
+*.exe
+/directx
