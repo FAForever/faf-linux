@@ -1,21 +1,23 @@
-## Experimental SteamRT version!
-
-You are on the experimental `steamrt4` branch. If you encounter issues, please visit the support channel.
-
 # FAF on Linux
 
 A set of scripts to automatically set up Supreme Commander: Forged Alliance with [Forged Alliance Forever](https://faforever.com/) on Linux. Tested on some places.
 
+## Important notice
+
+faf-linux has been updated to use the Steam Runtime. This will simplify installation and should eliminate a large class of strange bugs caused by distro differences.
+
+Some recent versions of Ubuntu break sandboxing by default. If you see the error message `FATAL: bwrap missing or nonfunctional`, you will need to run `echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/99-allow-userns.conf` and then reboot.
+
 ## Setup instructions
 
 1. Install prerequisites from your distribution's package manager:
-   - Debian and derivatives (Ubuntu, Pop!\_OS, Linux Mint, etc):
+   - Debian and derivatives (including Ubuntu, Pop!\_OS, and Linux Mint):
      - Ensure `i386` architecture is enabled: `sudo dpkg --add-architecture i386`
      - `sudo apt install git curl jq bubblewrap libvulkan1:amd64 libvulkan1:i386`
      - Nvidia drivers: make sure to have `libnvidia-gl-xxx:i386` (where X is the major version returned by `nvidia-smi`) installed.
-   - Fedora and Red Hat-based:
+   - Fedora and Red Hat-based (including Bazzite and Nobara):
      - `sudo dnf install git curl jq bubblewrap vulkan-loader.x86_64 vulkan-loader.i686`
-   - Arch Linux and derivatives (Manjaro, EndeavourOS, etc):
+   - Arch Linux and derivatives (including Manjaro, EndeavourOS, and CachyOS):
      - If you haven't enabled `multilib` in `pacman` yet, go to edit file `/etc/pacman.conf` and make sure the following are uncommented (including header):
          ```
          [multilib]
@@ -62,9 +64,9 @@ A set of scripts to automatically set up Supreme Commander: Forged Alliance with
    - This will create a new folder named faf-linux, where the client will be installed.
    - Do *not* put `faf-linux` within the game directory or any other Steam-managed directories. It will not function properly.
 1. Run `./setup.sh` to set up the local wine prefix, the FAF client, java, and others
-   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, edit the paths in `common-env` then re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
+   - Note: the script will install everything into the path where you cloned this repository. If you wish to move the installation later, re-run `./set-client-paths.sh` and `./install-shortcut.sh`.
    - Note: if you bought the game from GOG and installed it with Lutris, you need to run the setup like this: `BYPASS_STEAM=1 GAME_PATH="/path/to/Lutris/gog/supreme-commander-forged-alliance/drive_c/GOG Games/Supreme Commander Forged Alliance" ./setup.sh`
-   - Note: if you are using Ubuntu, you may see the error message `FATAL: bwrap missing or nonfunctional`. Ubuntu disallows applications to use sandboxing/containerization features (user namespaces) unless explicitly whitelisted. You can disable this by setting `kernel.apparmor_restrict_unprivileged_userns = 0` in sysctl (for example, in `/etc/sysctl.d/99-allow-userns.conf`). Additionally, consider not using Ubuntu.
+   - Note: if you are using Ubuntu, you may see the error message `FATAL: bwrap missing or nonfunctional`. Ubuntu disallows applications to use sandboxing/containerization features (user namespaces) unless explicitly whitelisted. To fix this, run `echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/99-allow-userns.conf` and then reboot. Additionally, consider not using Ubuntu.
 1. Start the FAF client with `./run` and log in
 1. After logging in, close the FAF client and run `./set-client-paths.sh`
 1. To launch FAF, run `./run`
