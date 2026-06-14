@@ -10,9 +10,9 @@ load-env
 # only enable steam integration if steam is actually running
 if [[ "$enable_steam_integration" == "1" ]] && pgrep steam >/dev/null; then
     if [[ "$use_wine_wow64" == "1" ]]; then
-        export LD_PRELOAD="$(readlink -f "$steam_path/ubuntu12_64/gameoverlayrenderer.so")"
+        export LD_PRELOAD="$(readlink -m "$steam_path/ubuntu12_64/gameoverlayrenderer.so")"
     else
-        export LD_PRELOAD="$(readlink -f "$steam_path/ubuntu12_32/gameoverlayrenderer.so")"
+        export LD_PRELOAD="$(readlink -m "$steam_path/ubuntu12_32/gameoverlayrenderer.so")"
     fi
     export ENABLE_VK_LAYER_VALVE_steam_overlay_1=1
 fi

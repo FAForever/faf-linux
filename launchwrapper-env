@@ -9,13 +9,13 @@ source "$basedir/common.sh"
 load-env
 pushd "$basedir"
 
-export WINEPREFIX="$(readlink -f "$wineprefix")"
+export WINEPREFIX="$(readlink -m "$wineprefix")"
 export SteamGameId="$steam_game_id"
 export SteamAppId="$steam_game_id"
 
 export DXVK_HUD="$dxvk_hud"
 export DXVK_CONFIG_FILE="$(readlink -f "$dxvk_config_file")"
-export DXVK_STATE_CACHE_PATH="$(readlink -f "$dxvk_cache_dir")"
+export DXVK_STATE_CACHE_PATH="$(readlink -m "$dxvk_cache_dir")"
 
 export STEAM_COMPAT_CLIENT_INSTALL_PATH="$steam_path"
 
