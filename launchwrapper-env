@@ -28,7 +28,7 @@ export WINENTSYNC=1
 
 # FA uses neither mshtml nor dotnet (mscoree). disable both and prevent wineboot from asking the user about them.
 # additionally prevent winemenubuilder from accidentally creating shortcuts.
-export WINEDLLOVERRIDES="mscoree=d,mshtml=d,winemenubuilder=d"
+export WINEDLLOVERRIDES="mscoree=d;mshtml=d;winemenubuilder=d"
 
 export proton_path="$(readlink -f "$proton_path")"
 
