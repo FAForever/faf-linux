@@ -16,6 +16,11 @@ export INSTALL4J_JAVA_HOME="$basedir/$java_path"
 # fork updater into background
 ./update.sh autoupdate-notify &
 
+if [[ "$XDG_CURRENT_DESKTOP" = "Unity" ]]; then
+    # need this on Gnome for some absurd reason because otherwise AWT just hangs forever on some XTaskbar code
+    # see also <https://github.com/openjdk/jdk/blob/d3e5304c0f70aa03a52f5449cb38645a184b23dc/src/java.desktop/unix/classes/sun/awt/X11/XTaskbarPeer.java#L43-L46>
+    export XDG_CURRENT_DESKTOP=whatever
+fi
 
 cd "$dfc_path"
 # do NOT run in container because container is missing gtk!
