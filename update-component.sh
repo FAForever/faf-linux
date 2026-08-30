@@ -20,7 +20,7 @@ function update-dxvk() {
         echo "Not re-downloading."
     else
         block-print "Downloading dxvk"
-        curlp -o "$dxvk_archive" "$dxvk_url"
+        curlp --retry 10 -C - -o "$dxvk_archive" "$dxvk_url"
         block-print "Extracting dxvk"
         tar -xvf "$dxvk_archive"
         rm "$dxvk_archive"
@@ -48,7 +48,7 @@ function update-dfc() {
         echo "Not re-downloading."
     else
         block-print "Downloading FAF client"
-        curlp -o "$dfc_archive" "$dfc_url"
+        curlp --retry 10 -C - -o "$dfc_archive" "$dfc_url"
         block-print "Extracting FAF client"
         tar -xvf "$dfc_archive"
         rm "$dfc_archive"
@@ -71,7 +71,7 @@ function update-java() {
     local java_url="$1"
 
     block-print "Downloading java"
-    curlp -o "java.tar.gz" "$java_url"
+    curlp --retry 10 -C - -o "java.tar.gz" "$java_url"
     block-print "Extracting java"
     local java_path="$(tar -tf "java.tar.gz" | head -n 1 | cut -d '/' -f 1)"
     if [[ -d "$java_path" ]]; then
@@ -90,7 +90,7 @@ function update-java() {
 function update-steamrt() {
     local steamrt_url="$1"
     block-print "Downloading Steam Runtime"
-    curlp -o "steamrt.tar.xz" "$steamrt_url"
+    curlp --retry 10 -C - -o "steamrt.tar.xz" "$steamrt_url"
     block-print "Extracting Steam Runtime"
     if [[ -e "steamrt.new" ]]; then
         echo "removing partially extracted files"
@@ -123,7 +123,7 @@ function update-proton() {
     local proton_url="$1"
 
     block-print "Downloading Proton"
-    curlp -o "proton.tar.gz" "$proton_url"
+    curlp --retry 10 -C - -o "proton.tar.gz" "$proton_url"
     block-print "Extracting Proton"
     local proton_path="$(tar -tf "proton.tar.gz" | head -n 1 | cut -d '/' -f 1)"
     if [[ -d "$proton_path" ]]; then
